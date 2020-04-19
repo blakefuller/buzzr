@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import BuzzrNavigator from './navigation/BuzzrNavigator'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>buzzr</Text>
-    </View>
+    <BuzzrNavigator />
   );
 }
 
