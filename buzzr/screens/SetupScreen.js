@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-
 
 function SetupScreen(props) {
 
    //// STATE
+
+   const [view, setView] = useState('Customer')
 
    //// CONSTRUCTOR
 
