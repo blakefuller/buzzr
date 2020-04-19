@@ -18,7 +18,10 @@ function SetupScreen(props) {
 
    return (
       <View style={styles.screen}>
-         <TouchableOpacity style={styles.submitButton}>
+         <TouchableOpacity 
+            style={styles.submitButton}
+            onPress={() => props.navigation.replace('CustomerInput')}
+         >
             <Text style={styles.submitButtonText}>Submit</Text>
          </TouchableOpacity>
       </View>
@@ -39,9 +42,11 @@ const styles = StyleSheet.create({
       backgroundColor: "#f8ce66",
       alignContent: "center",
       justifyContent: "center",
+      borderRadius: 5
    },
    submitButtonText: {
-      
+      fontFamily: "bold",
+      textAlign: "center"
    }
 })
 

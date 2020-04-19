@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 
 
 function CustomerInputScreen(props) {
@@ -18,7 +18,7 @@ function CustomerInputScreen(props) {
 
    return (
       <View style={styles.screen}>
-
+         <Text>Customer Input Screen</Text>
       </View>
    )
 }
@@ -27,6 +27,8 @@ function CustomerInputScreen(props) {
 
 const styles = StyleSheet.create({
    screen: {
+      justifyContent: "center",
+      alignItems: "center",
       flex: 1,
    },
 })
