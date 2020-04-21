@@ -11,8 +11,6 @@
     "@react-native-community/masked-view": "0.1.6",
     "@react-navigation/native": "^5.1.6",
     "@react-navigation/stack": "^5.2.11",
-    "aws-amplify-react": "^4.1.7",
-    "aws-amplify-react-native": "^4.0.4",
     "expo": "~37.0.3",
     "expo-font": "~8.1.0",
     "react": "~16.9.0",
