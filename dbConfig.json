@@ -1,6 +1,4 @@
 {
     "region": "us-west-2",
     "endpoint": "https://dynamodb.us-west-2.amazonaws.com",
-    "accessKeyId": "AKIAX2VMEIRRJXFKWDMR",
-    "secretAccessKey": "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"
 }
