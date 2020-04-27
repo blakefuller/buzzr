@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-
+import { View, StyleSheet, Text } from 'react-native';
 
 function WaitlistScreen(props) {
 
@@ -18,7 +17,7 @@ function WaitlistScreen(props) {
 
    return (
       <View style={styles.screen}>
-
+         <Text>Waitlist Screen</Text>
       </View>
    )
 }
@@ -28,6 +27,8 @@ function WaitlistScreen(props) {
 const styles = StyleSheet.create({
    screen: {
       flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
    },
 })
 
