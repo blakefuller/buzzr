@@ -6,5 +6,4 @@ AWS.config.credentials = credentials;
 var dbConfig = require('./dbConfig.json');
 AWS.config.update(dbConfig);
 
-let docClient = new AWS.DynamoDB.DocumentClient();
-export default docClient;
+export default AWS
