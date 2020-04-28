@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-
+//import AWS from '../AWS.config'
 
 function CustomerInputScreen(props) {
 
@@ -9,10 +9,27 @@ function CustomerInputScreen(props) {
    //// CONSTRUCTOR
 
    useEffect(() => {
-
+      testFetch();
    }, [])
 
    //// FUNCTIONS
+
+   function testFetch() {
+      // let docClient = new AWS.DynamoDB.DocumentClient();
+      // var params = {
+      //    TableName: "buzzr",
+      //    Key: {
+      //       "resturantID": 42,
+      //       "customerID": 42
+      //    }
+      // }
+      // docClient.get(params, function(error, data) {
+      //    if (err) 
+      //       console.log(err)
+      //    else 
+      //       console.log(data)
+      // })
+   }
 
    //// RENDER
 
