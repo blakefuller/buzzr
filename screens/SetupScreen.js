@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
       fontSize: 40 * scaleMultiplier
    },
    logo: {
-      width: 600 * scaleMultiplier,
+      width: 400 * scaleMultiplier,
       height: 200,
       resizeMode: 'contain',
    },
