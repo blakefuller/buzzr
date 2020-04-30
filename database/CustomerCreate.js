@@ -26,4 +26,4 @@ let CreateCustomer = function (customer) {
    })
 }
 
-export default CreateCustomer();
+export default CreateCustomer;
