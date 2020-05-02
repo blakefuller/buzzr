@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TextInput } from 'react-native';
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-// import AWS from '../AWS.config'
+import AWS from '../AWS.config'
 
 function CustomerInputScreen(props) {
 
@@ -23,7 +23,7 @@ function CustomerInputScreen(props) {
    function submit() {
       if(name && partySize && typeof partySize == 'number' && phoneNumber) {
          console.log('input is valid')
-         props.navigation.navigate('AfterSubmit')
+         props.navigation.navigate('AfterSubmit', {wasSuccessful: true})
          // fetch().then(() => navigate to after submit screen with status)
       } else {
          console.log('input is not valid')
