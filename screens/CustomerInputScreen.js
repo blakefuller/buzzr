@@ -23,6 +23,7 @@ function CustomerInputScreen(props) {
    function submit() {
       if(name && partySize && typeof partySize == 'number' && phoneNumber) {
          console.log('input is valid')
+         props.navigation.navigate('AfterSubmit')
          // fetch().then(() => navigate to after submit screen with status)
       } else {
          console.log('input is not valid')
