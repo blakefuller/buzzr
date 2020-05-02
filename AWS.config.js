@@ -1,9 +1,10 @@
-var AWS = require('aws-sdk/dist/aws-sdk-react-native');
+var AWS = require('aws-sdk');
 
-var credentials = new AWS.SharedIniFileCredentials();
-AWS.config.credentials = credentials;
+// var credentials = new AWS.SharedIniFileCredentials();
+// AWS.config.credentials = credentials;
 
-var dbConfig = require('./dbConfig.json');
-AWS.config.update(dbConfig);
+// var dbConfig = require('./dbConfig.json');
+var config = require('./AWS.config.json');
+AWS.config.update(config);
 
 export default AWS
