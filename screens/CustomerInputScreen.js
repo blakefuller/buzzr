@@ -9,19 +9,24 @@ function CustomerInputScreen(props) {
    //// STATE
 
    const [name, setName] = useState('');
-   const [partySize, setPartySize] = useState('');
+   const [partySize, setPartySize] = useState();
    const [phoneNumber, setPhoneNumber] = useState('');
 
    //// CONSTRUCTOR
 
    useEffect(() => {
-      // testFetch();
+      
    }, [])
 
    //// FUNCTIONS
 
    function submit() {
-
+      if(name && partySize && typeof partySize == 'number' && phoneNumber) {
+         console.log('input is valid')
+         // fetch().then(() => navigate to after submit screen with status)
+      } else {
+         console.log('input is not valid')
+      }
    }
 
    // function testFetch() {
@@ -61,7 +66,7 @@ function CustomerInputScreen(props) {
                <Text style={styles.labelText}>Party Size</Text>
                <TextInput
                   style={[styles.nameInputContainer, { width: 60 * scaleMultiplier }]}
-                  onChangeText={text => setPartySize(text)}
+                  onChangeText={text => setPartySize(parseInt(text))}
                   keyboardType='number-pad'
                />
             </View>
@@ -76,7 +81,7 @@ function CustomerInputScreen(props) {
          </View>
          <TouchableOpacity
                style={styles.submitButton}
-               onPress={() => submit}
+               onPress={submit}
             >
                <Text style={styles.submitButtonText}>Add to Waitlist</Text>
             </TouchableOpacity>
