@@ -2,12 +2,6 @@ import React from 'react';
 
 import AWS from '../AWS.config';
 
-// get current time
-let dObj = new Date();
-var curTime = (dObj.getHours() + ':' 
-            + dObj.getMinutes() + ':' 
-            + dObj.getSeconds());
-
 let docClient = new AWS.DynamoDB.DocumentClient();
 let CreateCustomer = function (customer) {
 

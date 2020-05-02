@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TextInput } from 'react-native';
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AWS from '../AWS.config'
+import CustomerCreate from '../database/CustomerCreate';
 
 function CustomerInputScreen(props) {
 
@@ -23,7 +24,27 @@ function CustomerInputScreen(props) {
    function submit() {
       if(name && partySize && typeof partySize == 'number' && phoneNumber) {
          console.log('input is valid')
-         props.navigation.navigate('AfterSubmit', {wasSuccessful: true})
+
+         // get current time
+         let dObj = new Date();
+         var curTime = (dObj.getHours() + ':' 
+                     + dObj.getMinutes() + ':' 
+                     + dObj.getSeconds());
+
+         var customer = {
+            "restaurantID": "78237813",
+            "customer": {
+               "id": "1234",
+               "name": name,
+               "phone_number": phoneNumber,
+               "party_size": partySize,
+               "checkin_time": curTime,
+            }
+         };
+
+         CustomerCreate(customer);
+
+         //props.navigation.navigate('AfterSubmit', {wasSuccessful: true})
          // fetch().then(() => navigate to after submit screen with status)
       } else {
          console.log('input is not valid')
