@@ -32,14 +32,11 @@ function CustomerInputScreen(props) {
                      + dObj.getSeconds());
 
          var customer = {
-            "restaurantID": "78237813",
-            "customer": {
-               "id": "1234",
+               "customerID": "0001",
                "name": name,
                "phone_number": phoneNumber,
                "party_size": partySize,
-               "checkin_time": curTime,
-            }
+               "checkin_time": curTime
          };
 
          CustomerCreate(customer);

@@ -6,7 +6,7 @@ let docClient = new AWS.DynamoDB.DocumentClient();
 let CreateCustomer = function (customer) {
 
    var params = {
-      TableName: "buzzr",
+      TableName: "testaurant",
       Item: customer
    }
 
