@@ -10,60 +10,46 @@ function CustomerInputScreen(props) {
    //// STATE
 
    const [name, setName] = useState('');
-   const [partySize, setPartySize] = useState();
+   const [partySize, setPartySize] = useState(0);
    const [phoneNumber, setPhoneNumber] = useState('');
 
    //// CONSTRUCTOR
 
    useEffect(() => {
-      
+      // reset form values
+      setName('');
+      setPartySize();
+      setPartySize('');
    }, [])
 
    //// FUNCTIONS
 
-   function submit() {
-      if(name && partySize && typeof partySize == 'number' && phoneNumber) {
-         console.log('input is valid')
+   async function submit() {
+      // some brief input validation
+      if (name && partySize && typeof partySize == 'number' && phoneNumber) {
 
          // get current time
          let dObj = new Date();
-         var curTime = (dObj.getHours() + ':' 
-                     + dObj.getMinutes() + ':' 
-                     + dObj.getSeconds());
+         var curTime = (dObj.getHours() + ':' + dObj.getMinutes() + ':' + dObj.getSeconds());
 
+         // set up object to put into database
          var customer = {
-               "customerID": "0001",
-               "name": name,
-               "phone_number": phoneNumber,
-               "party_size": partySize,
-               "checkin_time": curTime
+            "customerID": "0002",
+            "name": name,
+            "phone_number": phoneNumber,
+            "party_size": partySize,
+            "checkin_time": curTime
          };
 
-         CustomerCreate(customer);
+         // call function to create new customer and store status
+         var wasSuccessful = await CustomerCreate(customer);
 
-         //props.navigation.navigate('AfterSubmit', {wasSuccessful: true})
-         // fetch().then(() => navigate to after submit screen with status)
+         // navigate to after submit screen with result of create operation
+         props.navigation.navigate('AfterSubmit', { wasSuccessful: wasSuccessful })
       } else {
          console.log('input is not valid')
       }
    }
-
-   // function testFetch() {
-   //    let docClient = new AWS.DynamoDB.DocumentClient();
-   //    var params = {
-   //       TableName: "buzzr",
-   //       Key: {
-   //          "resturantID": 42,
-   //          "customerID": 42
-   //       }
-   //    }
-   //    docClient.get(params, function(error, data) {
-   //       if (err) 
-   //          console.log(err)
-   //       else 
-   //          console.log(data)
-   //    })
-   // }
 
    //// RENDER
 
@@ -88,7 +74,7 @@ function CustomerInputScreen(props) {
                   onChangeText={text => setPartySize(parseInt(text))}
                   keyboardType='number-pad'
                />
-            </View>
+            </View>  
             <View style={styles.formContainer}>
                <Text style={styles.labelText}>Phone Number</Text>
                <TextInput
@@ -99,11 +85,11 @@ function CustomerInputScreen(props) {
             </View >
          </View>
          <TouchableOpacity
-               style={styles.submitButton}
-               onPress={submit}
-            >
-               <Text style={styles.submitButtonText}>Add to Waitlist</Text>
-            </TouchableOpacity>
+            style={styles.submitButton}
+            onPress={submit}
+         >
+            <Text style={styles.submitButtonText}>Add to Waitlist</Text>
+         </TouchableOpacity>
       </View >
    )
 }
