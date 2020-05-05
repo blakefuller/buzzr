@@ -22,7 +22,7 @@ async function GetWaitlist() {
             }
             else {
                 console.log("success - " + JSON.stringify(data, null, 2));
-                resolve(true);
+                resolve(data);
             }
         })
     })

@@ -1,29 +1,35 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, FlatList } from 'react-native';
 import { colors, scaleMultiplier } from '../constants';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import GetWaitlist from '../database/GetWaitlist'
+import CustomerItem from '../components/CustomerItem'
 function WaitlistScreen(props) {
 
    //// STATE
 
+   const [waitlist, setWaitlist] = useState([])
+
    //// CONSTRUCTOR
 
    useEffect(() => {
-
+      GetWaitlist().then(waitlist => {
+         setWaitlist(waitlist.Items)
+      })
    }, [])
 
    //// FUNCTIONS
 
-   function fetchCustomer() {
-
-   }
 
    //// RENDER
 
-   function renderCustomer({customer}) {
+   function renderCustomer(customerList) {
       return (
-         <CustomerItem />
+         <CustomerItem 
+            name={customerList.item.name}
+            checkinTime={customerList.item.checkin_time}
+            partySize={customerList.item.party_size}
+         />
       )
    }
 
@@ -51,10 +57,11 @@ function WaitlistScreen(props) {
                </TouchableOpacity>
             </View>
          </View>
-      {/* <FlatList 
-         data={}
+      <FlatList 
+         data={waitlist}
          renderItem={renderCustomer}
-      /> */}
+         keyExtractor={item => item.customerID}
+      />
       </View>
    )
 }

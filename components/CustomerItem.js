@@ -10,33 +10,27 @@ function CustomerItem(props) {
    //// CONSTRUCTOR
 
    useEffect(() => {
-
+      console.log(props.name)
    }, [])
 
    //// FUNCTIONS
 
    //// RENDER
 
-   function renderCustomer({ customer }) {
-      return (
-         <CustomerItem />
-      )
-   }
-
    return (
       <View style={styles.customerItemContainer}>
          <View style={[styles.customerFieldContainer, { flex: 1 }]}>
-            <Text style={styles.headerText}>Size</Text>
+            <Text style={styles.headerText}>{props.partySize}</Text>
          </View>
          <View style={[styles.customerFieldContainer, { flex: 5 }]}>
-            <Text style={styles.headerText}>Name</Text>
+            <Text style={styles.headerText}>{props.name}</Text>
          </View>
          <View style={[styles.customerFieldContainer, { flex: 2 }]}>
-            <Text style={styles.headerText}>Waiting</Text>
+            <Text style={styles.headerText}>{props.checkinTime}</Text>
          </View>
          <View style={[styles.customerFieldContainer, { flex: 2 }]}>
             <TouchableOpacity onPress={() => { }}>
-               <Text style={styles.headerText}>Notified</Text>
+               <Text style={styles.headerText}></Text>
             </TouchableOpacity>
          </View>
       </View>
