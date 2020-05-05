@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TextInput } from 'react-native';
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import AWS from '../AWS.config'
 import CustomerCreate from '../database/CustomerCreate';
 
 function CustomerInputScreen(props) {
@@ -19,10 +18,8 @@ function CustomerInputScreen(props) {
    //// CONSTRUCTOR
 
    useEffect(() => {
-      if(nameInputRef) {
-         nameInputRef.focus();
-      }
-   }, [nameInputRef])
+
+   }, [])
 
    //// FUNCTIONS
 
@@ -44,7 +41,6 @@ function CustomerInputScreen(props) {
          };
 
          nameInputRef.clear();
-         nameInputRef.focus();
          partySizeInputRef.clear();
          phoneNumberInputRef.clear();
 
