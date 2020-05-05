@@ -58,7 +58,6 @@ function CustomerInputScreen(props) {
 
    return (
       <View style={styles.screen}>
-         <Text style={styles.addToWaitlistText}>Add to Waitlist</Text>
          <View style={styles.formsContainer}>
             <View style={styles.formContainer}>
                <Text style={styles.labelText}>Name</Text>
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
       marginBottom: 40
    },
    labelText: {
-      fontFamily: 'semi-bold',
+      fontFamily: 'regular',
       fontSize: 18 * scaleMultiplier,
       textAlign: 'left',
       marginBottom: 5
