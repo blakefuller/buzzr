@@ -10,17 +10,19 @@ function CustomerInputScreen(props) {
    //// STATE
 
    const [name, setName] = useState('');
-   const [partySize, setPartySize] = useState(0);
+   const [partySize, setPartySize] = useState('');
    const [phoneNumber, setPhoneNumber] = useState('');
+   const [nameInputRef, setNameInputRef] = useState();
+   const [partySizeInputRef, setPartySizeInputRef] = useState();
+   const [phoneNumberInputRef, setPhoneNumberInputRef] = useState();
 
    //// CONSTRUCTOR
 
    useEffect(() => {
-      // reset form values
-      setName('');
-      setPartySize();
-      setPartySize('');
-   }, [])
+      if(nameInputRef) {
+         nameInputRef.focus();
+      }
+   }, [nameInputRef])
 
    //// FUNCTIONS
 
@@ -36,16 +38,21 @@ function CustomerInputScreen(props) {
          var customer = {
             "customerID": "0002",
             "name": name,
-            "phone_number": phoneNumber,
+            "phone_number": '+1' + phoneNumber,
             "party_size": partySize,
             "checkin_time": curTime
          };
 
-         // call function to create new customer and store status
-         var wasSuccessful = await CustomerCreate(customer);
+         nameInputRef.clear();
+         nameInputRef.focus();
+         partySizeInputRef.clear();
+         phoneNumberInputRef.clear();
 
-         // navigate to after submit screen with result of create operation
-         props.navigation.navigate('AfterSubmit', { wasSuccessful: wasSuccessful })
+
+         // call function to create new customer and store status, then navigate to feedback screen
+         await CustomerCreate(customer).then(status => {
+            props.navigation.navigate('AfterSubmit', { wasSuccessful: status })
+         });
       } else {
          console.log('input is not valid')
       }
@@ -65,6 +72,8 @@ function CustomerInputScreen(props) {
                   onChangeText={text => setName(text)}
                   autoCapitalize='words'
                   autoCorrect={false}
+                  value={name}
+                  ref={input => setNameInputRef(input)}
                />
             </View>
             <View style={styles.formContainer}>
@@ -73,6 +82,8 @@ function CustomerInputScreen(props) {
                   style={[styles.nameInputContainer, { width: 60 * scaleMultiplier }]}
                   onChangeText={text => setPartySize(parseInt(text))}
                   keyboardType='number-pad'
+                  value={partySize.toString()}
+                  ref={input => setPartySizeInputRef(input)}
                />
             </View>  
             <View style={styles.formContainer}>
@@ -81,6 +92,8 @@ function CustomerInputScreen(props) {
                   style={[styles.nameInputContainer, { width: 200 * scaleMultiplier }]}
                   onChangeText={text => setPhoneNumber(text)}
                   keyboardType='number-pad'
+                  value={phoneNumber}
+                  ref={input => setPhoneNumberInputRef(input)}
                />
             </View >
          </View>

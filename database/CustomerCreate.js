@@ -9,15 +9,18 @@ async function CreateCustomer(customer) {
       Item: customer
    }
 
-   await docClient.put(params, function (err, data) {
-      if (err) {
-         console.log("error - " + JSON.stringify(err, null, 2));
-         return false
-      }
-      else {
-         console.log("success - " + JSON.stringify(data, null, 2));
-         return true
-      }
+   // promise to return status of create operation
+   return new Promise(resolve => {
+      docClient.put(params, function (err, data) {
+         if (err) {
+            console.log("error - " + JSON.stringify(err, null, 2));
+            resolve(false)
+         }
+         else {
+            console.log("success - " + JSON.stringify(data, null, 2));
+            resolve(true)
+         }
+      })
    })
 }
 

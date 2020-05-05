@@ -6,12 +6,10 @@ function SetupScreen(props) {
 
    //// STATE
 
-   const [wasSuccessful, setWasSuccessful] = useState(props.route.params.wasSuccessful)
    const [waitTime, setWaitTime] = useState(15);
    //// CONSTRUCTOR
 
    useEffect(() => {
-
    }, [])
 
    //// FUNCTIONS
@@ -33,12 +31,12 @@ function SetupScreen(props) {
          </View>
          <View style={styles.mainSection}>
          <Ionicons 
-            name={wasSuccessful ? 'ios-checkmark-circle-outline' : 'ios-close-circle-outline'} 
+            name={props.route.params.wasSuccessful ? 'ios-checkmark-circle-outline' : 'ios-close-circle-outline'} 
             size={100 * scaleMultiplier} 
             color={colors.onPrimary}
          />
-         <Text style={styles.statusHeaderText}>{wasSuccessful ? 'Success!' : 'Error'}</Text>
-         <Text style={styles.statusBodyText}>{wasSuccessful ? 'You should receive a confirmation text message shortly.' : 'Please contact a host.'}</Text>
+         <Text style={styles.statusHeaderText}>{props.route.params.wasSuccessful ? 'Success!' : 'Error'}</Text>
+         <Text style={styles.statusBodyText}>{props.route.params.wasSuccessful ? 'You should receive a confirmation text message shortly.' : 'Please contact a host.'}</Text>
          {waitTimeComponent}
          </View>
       </View>
