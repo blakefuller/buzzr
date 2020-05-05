@@ -1,0 +1,40 @@
+  {
+    "Records": [
+      {
+    "restaurants": {
+        "restaurantID": "1234",
+        "waitlist": {
+            "id1": {
+                "name": "Nate Salima",
+                "phone_number": "123-456-7890",
+                "party_size": 4,
+                "check_in_time": "2009-06-15T13:45:31.0000000Z",
+                "table_notified": false,
+                "notified_time": "2009-06-15T13:45:32.0000000Z"
+            },
+            "id2": {
+                "name": "Cameron Moe",
+                "phone_number": "222-222-2222",
+                "party_size": 3,
+                "check_in_time": "2009-06-15T13:45:35.0000000Z",
+                "table_notified": false,
+                "notified_time": "2009-06-15T13:45:37.0000000Z"
+            }
+        },
+        "wait_times": {
+            "party_1": 0,
+            "party_2": 5,
+            "party_3": 10,
+            "party_4": 15,
+            "party_5": 20
+        },
+        "log_list": {
+            "0000": {
+                "message": "things went good",
+                "timestamp": "2009-06-15T13:45:30.0000000Z"
+            }
+        }
+    }
+}
+]
+}
