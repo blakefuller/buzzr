@@ -8,9 +8,9 @@ async function GetWaitlist() {
         TableName: "testaurant",
         AttributesToGet: [
             "customerID",
-            "checkin_time",
             "name",
-            "party_size"
+            "party_size",
+            "checkin_time"
         ]
     }
 
