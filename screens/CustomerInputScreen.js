@@ -30,7 +30,7 @@ function CustomerInputScreen (props) {
 
       // set up object to put into database
       var customer = {
-        customerID: '0005',
+        customerID: Math.floor(Math.random() * 1000000000).toString(),
         name: name,
         phone_number: '+1' + phoneNumber,
         party_size: partySize,
