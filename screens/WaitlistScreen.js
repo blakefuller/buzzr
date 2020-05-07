@@ -36,7 +36,7 @@ function WaitlistScreen(props) {
    return (
       <View style={styles.screen}>
          <View style={styles.headerBar}>
-            <View style={[styles.headerButton, { flex: 1 }]}>
+            <View style={[styles.headerButton, { flex: 1, justifyContent: 'center' }]}>
                <TouchableOpacity onPress={() => { }}>
                   <Text style={styles.headerText}>Size</Text>
                </TouchableOpacity>
@@ -57,11 +57,13 @@ function WaitlistScreen(props) {
                </TouchableOpacity>
             </View>
          </View>
+      <View style={{flex: 1}}>
       <FlatList 
          data={waitlist}
          renderItem={renderCustomer}
          keyExtractor={item => item.customerID}
       />
+      </View>
       </View>
    )
 }
@@ -80,7 +82,6 @@ const styles = StyleSheet.create({
       width: "100%",
       flexDirection: "row",
       justifyContent: "space-between",
-      paddingHorizontal: 20,
       alignItems: 'center',
    },
    headerButton: {
