@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TextInput } from 'react-native';
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import CustomerCreate from '../database/CustomerCreate';
+import CreateCustomer from '../database/CreateCustomer';
 
 function CustomerInputScreen(props) {
 
@@ -46,7 +46,7 @@ function CustomerInputScreen(props) {
 
 
          // call function to create new customer and store status, then navigate to feedback screen
-         await CustomerCreate(customer).then(status => {
+         await CreateCustomer(customer).then(status => {
             props.navigation.navigate('AfterSubmit', { wasSuccessful: status })
          });
       } else {

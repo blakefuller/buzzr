@@ -25,3 +25,5 @@ async function GetCustomer(id) {
         })
     })
 }
+
+export default GetCustomer;
