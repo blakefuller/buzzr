@@ -3,24 +3,18 @@ const config = require('../AWS.config.json');
 
 let docClient = new AWS.DynamoDB.DocumentClient();
 
-async function GetCustomer(id, checkin) {
+async function GetCustomer(id) {
 
     var params = {
         TableName: config.restaurant,
-        Key: {
-            "customerID": id,
-            "checkin_time": checkin
-        },
-        AttributesToGet: [
-            "customerID",
-            "name",
-            "party_size",
-            "checkin_time"
-        ]
+        KeyConditionExpression: "customerID = :id",
+        ExpressionAttributeValues: {
+            ":id": id
+        }
     };
 
     return new Promise(resolve => {
-        docClient.get(params, function (err, data) {
+        docClient.query(params, function (err, data) {
             if (err) {
                 console.log("error - " + JSON.stringify(err, null, 2));
                 resolve(false);
