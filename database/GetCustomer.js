@@ -3,13 +3,20 @@ const config = require('../AWS.config.json');
 
 let docClient = new AWS.DynamoDB.DocumentClient();
 
-async function GetCustomer(id) {
+async function GetCustomer(id, checkin) {
 
     var params = {
         TableName: config.restaurant,
         Key: {
-            "customerID": id
-        }
+            "customerID": id,
+            "checkin_time": checkin
+        },
+        AttributesToGet: [
+            "customerID",
+            "name",
+            "party_size",
+            "checkin_time"
+        ]
     };
 
     return new Promise(resolve => {
