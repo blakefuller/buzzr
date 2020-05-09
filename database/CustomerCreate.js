@@ -1,11 +1,12 @@
 import AWS from '../AWS.config';
+const config = require('../AWS.config.json');
 
 let docClient = new AWS.DynamoDB.DocumentClient();
 
 async function CreateCustomer(customer) {
 
    var params = {
-      TableName: "testaurant",
+      TableName: config.restaurant,
       Item: customer
    }
 
