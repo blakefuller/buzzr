@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -6,13 +6,47 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 function CustomerItem (props) {
   //// STATE
 
+  const [notifyPressed, setNotifyPressed] = useState(false)
+
   //// CONSTRUCTOR
 
   useEffect(() => {}, [])
 
   //// FUNCTIONS
 
+  function notifyCustomer () {
+    // add notifiedtime variable to db
+
+    setNotifyPressed(false)
+  }
+
   //// RENDER
+
+  var notifiedComponent = props.notifiedTime ? (
+    <View>
+      <Text>{Date.now() - props.notifiedTime}</Text>
+    </View>
+  ) : (
+    <TouchableOpacity
+      onPress={
+        notifyPressed ? () => notifyCustomer() : () => setNotifyPressed(true)
+      }
+    >
+      <Text
+        style={[
+          styles.customerFieldText,
+          {
+            color: colors.primaryDark,
+            fontSize: notifyPressed
+              ? 10 * scaleMultiplier
+              : 14 * scaleMultiplier
+          }
+        ]}
+      >
+        {notifyPressed ? 'Tap to confirm' : 'NOTIFY'}
+      </Text>
+    </TouchableOpacity>
+  )
 
   return (
     <View style={styles.customerItemContainer}>
@@ -24,16 +58,19 @@ function CustomerItem (props) {
       >
         <Text style={styles.customerFieldText}>{props.partySize}</Text>
       </View>
-      <View style={[styles.customerFieldContainer, { flex: 5 }]}>
+      <View
+        style={[
+          styles.customerFieldContainer,
+          { flex: 5, justifyContent: 'flex-start' }
+        ]}
+      >
         <Text style={styles.customerFieldText}>{props.name}</Text>
       </View>
       <View style={[styles.customerFieldContainer, { flex: 2 }]}>
-        <Text style={styles.customerFieldText}>{props.checkinTime}</Text>
+        <Text style={styles.customerFieldText}>{props.checkinTime}min</Text>
       </View>
       <View style={[styles.customerFieldContainer, { flex: 2 }]}>
-        <TouchableOpacity onPress={() => {}}>
-          <Text style={styles.customerFieldText}></Text>
-        </TouchableOpacity>
+        {notifiedComponent}
       </View>
     </View>
   )
@@ -52,11 +89,15 @@ const styles = StyleSheet.create({
   customerFieldContainer: {
     height: '100%',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   customerFieldText: {
     fontFamily: 'light',
     fontSize: 14 * scaleMultiplier
+  },
+  notifyButton: {
+    flex: 1
   }
 })
 

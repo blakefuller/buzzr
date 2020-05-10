@@ -34,7 +34,7 @@ function CustomerInputScreen (props) {
         name: name,
         phone_number: '+1' + phoneNumber,
         party_size: partySize,
-        checkin_time: curTime
+        checkin_time: Date.now()
       }
 
       nameInputRef.clear()

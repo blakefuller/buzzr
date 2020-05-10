@@ -9,10 +9,12 @@ import {
 } from 'react-native'
 import { colors, scaleMultiplier } from '../constants'
 import { Ionicons } from '@expo/vector-icons'
+
 function SetupScreen (props) {
   //// STATE
 
   const [waitTime, setWaitTime] = useState(15)
+
   //// CONSTRUCTOR
 
   useEffect(() => {}, [])

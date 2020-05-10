@@ -1,23 +1,54 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, FlatList } from 'react-native'
+import { View, StyleSheet, Text, FlatList, RefreshControl } from 'react-native'
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import GetWaitlist from '../database/GetWaitlist'
 import CustomerItem from '../components/CustomerItem'
+import HeaderButtons from '../components/HeaderButtons'
+
 function WaitlistScreen (props) {
   //// STATE
 
   const [waitlist, setWaitlist] = useState([])
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
   //// CONSTRUCTOR
 
   useEffect(() => {
-    GetWaitlist().then(waitlist => {
-      setWaitlist(waitlist.Items)
-    })
+    props.navigation.setOptions(setNavOptions())
+    getWaitlist()
   }, [])
 
   //// FUNCTIONS
+
+  function getWaitlist () {
+    setIsRefreshing(true)
+    GetWaitlist().then(waitlist => {
+      setWaitlist(waitlist.Items)
+      setIsRefreshing(false)
+    })
+  }
+
+  function setNavOptions () {
+    return {
+      headerRight: () => (
+        <HeaderButtons
+          button1Name='timer'
+          button1OnPress={() => {}}
+          button2Name='plus'
+          button2OnPress={() => {}}
+        />
+      ),
+      headerLeft: () => (
+        <HeaderButtons
+          button1Name='file-document-outline'
+          button1OnPress={() => {}}
+          button2Name='sort'
+          button2OnPress={() => {}}
+        />
+      )
+    }
+  }
 
   //// RENDER
 
@@ -25,8 +56,11 @@ function WaitlistScreen (props) {
     return (
       <CustomerItem
         name={customerList.item.name}
-        checkinTime={customerList.item.checkin_time}
+        checkinTime={Math.round(
+          (Date.now() - customerList.item.checkin_time) / 60000
+        )}
         partySize={customerList.item.party_size}
+        notifiedTime={customerList.item.notified_time}
       />
     )
   }
@@ -41,7 +75,12 @@ function WaitlistScreen (props) {
             <Text style={styles.headerText}>Size</Text>
           </TouchableOpacity>
         </View>
-        <View style={[styles.headerButton, { flex: 5 }]}>
+        <View
+          style={[
+            styles.headerButton,
+            { flex: 5, justifyContent: 'flex-start' }
+          ]}
+        >
           <TouchableOpacity onPress={() => {}}>
             <Text style={styles.headerText}>Name</Text>
           </TouchableOpacity>
@@ -62,6 +101,13 @@ function WaitlistScreen (props) {
           data={waitlist}
           renderItem={renderCustomer}
           keyExtractor={item => item.customerID}
+          refreshControl={
+            <RefreshControl
+              colors={['#9Bd35A', '#689F38']}
+              refreshing={isRefreshing}
+              onRefresh={() => getWaitlist()}
+            />
+          }
         />
       </View>
     </View>
@@ -87,7 +133,8 @@ const styles = StyleSheet.create({
   headerButton: {
     height: '100%',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   headerText: {
     fontFamily: 'regular',
