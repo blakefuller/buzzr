@@ -3,6 +3,7 @@ import SetupScreen from '../screens/SetupScreen'
 import CustomerInputScreen from '../screens/CustomerInputScreen'
 import WaitlistScreen from '../screens/WaitlistScreen'
 import AfterSubmitScreen from '../screens/AfterSubmitScreen'
+import EditCustomerScreen from '../screens/EditCustomerScreen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { colors, scaleMultiplier } from '../constants'
@@ -46,6 +47,22 @@ function BuzzrNavigator () {
           }}
         />
         <Stack.Screen name='AfterSubmit' component={AfterSubmitScreen} />
+        <Stack.Screen
+          name='EditCustomer'
+          component={EditCustomerScreen}
+          options={{
+            headerShown: true,
+            headerTitle: 'Edit Customer',
+            headerStyle: {
+              backgroundColor: colors.primary,
+              height: 45 * scaleMultiplier
+            },
+            headerTitleStyle: {
+              fontFamily: 'bold',
+              fontSize: 16 * scaleMultiplier
+            }
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

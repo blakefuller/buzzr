@@ -1,7 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, StyleSheet, Text } from 'react-native'
 import { scaleMultiplier } from '../constants'
-import { connect } from 'react-redux'
 
 function ModalButton (props) {
   //// RETURN
@@ -14,13 +13,7 @@ function ModalButton (props) {
       ]}
       onPress={props.onPress}
     >
-      <Text
-        style={[
-          styles.text,
-          props.style,
-          { fontFamily: props.font + '-regular' }
-        ]}
-      >
+      <Text style={[styles.text, props.style, { fontFamily: 'regular' }]}>
         {props.title}
       </Text>
     </TouchableOpacity>
@@ -32,23 +25,14 @@ function ModalButton (props) {
 const styles = StyleSheet.create({
   modalButtonStyle: {
     width: '100%',
-    height: 70 * scaleMultiplier,
+    height: 50 * scaleMultiplier,
     justifyContent: 'center',
     borderBottomColor: '#dedede'
   },
   text: {
     textAlign: 'center',
-    fontSize: 19.5 * scaleMultiplier
+    fontSize: 16 * scaleMultiplier
   }
 })
 
-function mapStateToProps (state) {
-  var activeGroup = state.groups.filter(
-    item => item.name === state.activeGroup
-  )[0]
-  return {
-    font: state.database[activeGroup.language].font
-  }
-}
-
-export default connect(mapStateToProps)(ModalButton)
+export default ModalButton

@@ -5,12 +5,19 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import GetWaitlist from '../database/GetWaitlist'
 import CustomerItem from '../components/CustomerItem'
 import HeaderButtons from '../components/HeaderButtons'
+import BuzzrModal from '../components/BuzzrModal'
+import ModalButton from '../components/ModalButton'
 
 function WaitlistScreen (props) {
   //// STATE
 
   const [waitlist, setWaitlist] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
+
+  // modal states
+  const [modalCustomer, setModalCustomer] = useState({})
+  const [showWaitTimeModal, setShowWaitTimeModal] = useState(false)
+  const [showOptionsModal, setShowOptionsModal] = useState(false)
 
   //// CONSTRUCTOR
 
@@ -34,9 +41,9 @@ function WaitlistScreen (props) {
       headerRight: () => (
         <HeaderButtons
           button1Name='timer'
-          button1OnPress={() => {}}
+          button1OnPress={() => setShowWaitTimeModal(true)}
           button2Name='plus'
-          button2OnPress={() => {}}
+          button2OnPress={() => props.navigation.navigate('CustomerInput')}
         />
       ),
       headerLeft: () => (
@@ -50,6 +57,10 @@ function WaitlistScreen (props) {
     }
   }
 
+  function deleteCustomer () {
+    // BLAKE: delete customer using modalCustomer object
+  }
+
   //// RENDER
 
   function renderCustomer (customerList) {
@@ -61,6 +72,8 @@ function WaitlistScreen (props) {
         )}
         partySize={customerList.item.party_size}
         notifiedTime={customerList.item.notified_time}
+        showOptionsModal={() => setShowOptionsModal(true)}
+        setModalCustomer={() => setModalCustomer(customerList.item)}
       />
     )
   }
@@ -103,13 +116,35 @@ function WaitlistScreen (props) {
           keyExtractor={item => item.customerID}
           refreshControl={
             <RefreshControl
-              colors={['#9Bd35A', '#689F38']}
               refreshing={isRefreshing}
               onRefresh={() => getWaitlist()}
             />
           }
         />
       </View>
+      <BuzzrModal
+        isVisible={showWaitTimeModal}
+        hideModal={() => setShowWaitTimeModal(false)}
+        closeText='Close'
+      >
+        <Text>Waittime stuff goes here</Text>
+      </BuzzrModal>
+      <BuzzrModal
+        isVisible={showOptionsModal}
+        hideModal={() => setShowOptionsModal(false)}
+        closeText='Close'
+      >
+        <ModalButton
+          title='Edit Customer'
+          onPress={() => {
+            setShowOptionsModal(false)
+            props.navigation.navigate('EditCustomer', {
+              customer: modalCustomer
+            })
+          }}
+        />
+        <ModalButton title='Delete Customer' onPress={() => deleteCustomer()} />
+      </BuzzrModal>
     </View>
   )
 }

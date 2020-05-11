@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Modal from 'react-native-modal'
 import { scaleMultiplier } from '../constants'
 
-function Modal (props) {
+function BuzzrModal (props) {
   //// RENDER
   return (
     <Modal
@@ -23,8 +23,8 @@ function Modal (props) {
             <Text
               style={{
                 textAlign: 'center',
-                fontFamily: 'medium'
-                fontSize: 21 * scaleMultiplier,
+                fontFamily: 'semi-bold',
+                fontSize: 18 * scaleMultiplier,
                 color: '#FF0800'
               }}
             >
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   closeButtonContainer: {
     width: '100%',
-    height: 70 * scaleMultiplier,
+    height: 50 * scaleMultiplier,
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
@@ -52,5 +52,4 @@ const styles = StyleSheet.create({
   }
 })
 
-
-export default WahaModal
+export default BuzzrModal

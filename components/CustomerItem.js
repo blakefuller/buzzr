@@ -15,9 +15,14 @@ function CustomerItem (props) {
   //// FUNCTIONS
 
   function notifyCustomer () {
-    // add notifiedtime variable to db
+    // BLAKE: add notifiedtime variable to db
 
     setNotifyPressed(false)
+  }
+
+  function showCustomerModal () {
+    props.setModalCustomer()
+    props.showOptionsModal()
   }
 
   //// RENDER
@@ -49,7 +54,10 @@ function CustomerItem (props) {
   )
 
   return (
-    <View style={styles.customerItemContainer}>
+    <TouchableOpacity
+      style={styles.customerItemContainer}
+      onLongPress={() => showCustomerModal()}
+    >
       <View
         style={[
           styles.customerFieldContainer,
@@ -72,7 +80,7 @@ function CustomerItem (props) {
       <View style={[styles.customerFieldContainer, { flex: 2 }]}>
         {notifiedComponent}
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

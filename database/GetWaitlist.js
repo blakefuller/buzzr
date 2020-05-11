@@ -5,7 +5,13 @@ let docClient = new AWS.DynamoDB.DocumentClient()
 async function GetWaitlist () {
   var params = {
     TableName: 'testaurant',
-    AttributesToGet: ['customerID', 'name', 'party_size', 'checkin_time']
+    AttributesToGet: [
+      'customerID',
+      'name',
+      'party_size',
+      'checkin_time',
+      'phone_number'
+    ]
   }
 
   return new Promise(resolve => {
