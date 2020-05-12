@@ -1,4 +1,5 @@
-import AWS from '../AWS.config'
+import AWS from '../AWS.config';
+const config = require('../AWS.config.json');
 
 let docClient = new AWS.DynamoDB.DocumentClient()
 
