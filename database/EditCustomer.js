@@ -5,23 +5,30 @@ let docClient = new AWS.DynamoDB.DocumentClient();
 
 async function EditCustomer(customer) {
 
-  var params = {
+  var params = customer.notified_time 
+  ? {
     TableName: config.restaurant,
-    ConditionExpression: "#id = :id",
-    UpdateExpression: `set #n = :name, 
-                            #ps = :party_size, 
-                            #cit = :time`,
+    Key: {customerID: customer.customerID},
+    UpdateExpression: "set #nt = :ntime",
     ExpressionAttributeNames: {
-      "#id": "customerID",
-      "#n": "name",
-      "#ps": "party_size",
-      "#cit": "checkin_time"
+      "#nt": "notified_time"
     },
     ExpressionAttributeValues: {
-      ":id": customer.customerID,
+      ":ntime": customer.notified_time
+    },
+    ReturnValues: "UPDATED_NEW"
+  } : {
+    TableName: config.restaurant,
+    Key: {customerID: customer.customerID},
+    UpdateExpression: `set #n = :name, 
+                      #ps = :party_size`,
+    ExpressionAttributeNames: {
+      "#n": "name",
+      "#ps": "party_size",
+    },
+    ExpressionAttributeValues: {
       ":name": customer.name,
       ":party_size": customer.party_size,
-      ":time": customer.checkin_time
     },
     ReturnValues: "UPDATED_NEW"
   };

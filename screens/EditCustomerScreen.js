@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text, TextInput } from 'react-native'
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import CustomerCreate from '../database/CustomerCreate'
+import EditCustomer from '../database/EditCustomer'
 
 function CustomerInputScreen (props) {
   //// STATE
@@ -26,9 +26,6 @@ function CustomerInputScreen (props) {
   //// FUNCTIONS
 
   async function updateCustomer () {
-    // some brief input validation
-    if (name && partySize && typeof partySize == 'number' && phoneNumber) {
-      // BLAKE: edit customer
       var customer = {
         customerID: props.route.params.customer.customerID,
         name: name,
@@ -38,12 +35,9 @@ function CustomerInputScreen (props) {
       }
 
       // call function to create new customer and store status, then navigate to feedback screen
-      await CustomerCreate(customer).then(status => {
+      await EditCustomer(customer).then(status => {
         setSaveSuccessful(status ? 'yes' : 'no')
       })
-    } else {
-      console.log('input is not valid')
-    }
   }
 
   //// RENDER

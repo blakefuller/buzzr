@@ -11,7 +11,8 @@ async function GetWaitlist () {
       'name',
       'party_size',
       'checkin_time',
-      'phone_number'
+      'phone_number',
+      'notified_time'
     ]
   }
 

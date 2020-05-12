@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import EditCustomer from '../database/EditCustomer'
 
 function CustomerItem (props) {
   //// STATE
@@ -14,10 +15,19 @@ function CustomerItem (props) {
 
   //// FUNCTIONS
 
-  function notifyCustomer () {
-    // BLAKE: add notifiedtime variable to db
+  console.log(props.notifiedTime)
 
-    setNotifyPressed(false)
+  async function notifyCustomer () {
+    // BLAKE: add notifiedtime variable to db
+      var customer = {
+        customerID: props.id,
+        notified_time: Date.now()
+      }
+
+      // call function to create new customer and store status, then navigate to feedback screen
+      await EditCustomer(customer).then(status => {
+        props.refresh()
+      })
   }
 
   function showCustomerModal () {
@@ -29,7 +39,9 @@ function CustomerItem (props) {
 
   var notifiedComponent = props.notifiedTime ? (
     <View>
-      <Text>{Date.now() - props.notifiedTime}</Text>
+      <Text>{Math.round(
+          (Date.now() - props.notifiedTime) / 60000
+        )}min</Text>
     </View>
   ) : (
     <TouchableOpacity

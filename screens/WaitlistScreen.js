@@ -66,6 +66,7 @@ function WaitlistScreen (props) {
   function renderCustomer (customerList) {
     return (
       <CustomerItem
+        id={customerList.item.customerID}
         name={customerList.item.name}
         checkinTime={Math.round(
           (Date.now() - customerList.item.checkin_time) / 60000
@@ -74,6 +75,7 @@ function WaitlistScreen (props) {
         notifiedTime={customerList.item.notified_time}
         showOptionsModal={() => setShowOptionsModal(true)}
         setModalCustomer={() => setModalCustomer(customerList.item)}
+        refresh={() => getWaitlist()}
       />
     )
   }
