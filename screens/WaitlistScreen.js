@@ -3,33 +3,33 @@ import { View, StyleSheet, Text } from 'react-native';
 
 function WaitlistScreen(props) {
 
-   //// STATE
+  //// STATE
 
-   //// CONSTRUCTOR
+  //// CONSTRUCTOR
 
-   useEffect(() => {
+  useEffect(() => {
 
-   }, [])
+  }, [])
 
-   //// FUNCTIONS
+  //// FUNCTIONS
 
-   //// RENDER
+  //// RENDER
 
-   return (
-      <View style={styles.screen}>
-         <Text>Waitlist Screen</Text>
-      </View>
-   )
+  return (
+    <View style={styles.screen}>
+      <Text>Waitlist Screen</Text>
+    </View>
+  )
 }
 
 //// STYLES
 
 const styles = StyleSheet.create({
-   screen: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
-   },
+  screen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 })
 
 export default WaitlistScreen;
