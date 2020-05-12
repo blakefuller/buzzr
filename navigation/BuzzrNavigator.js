@@ -9,28 +9,28 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 function BuzzrNavigator() {
-   return (
-      <NavigationContainer>
-         <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen
-               name="Setup"
-               component={SetupScreen}
-            />
-            <Stack.Screen
-               name="CustomerInput"
-               component={CustomerInputScreen}
-            />
-            <Stack.Screen 
-               name="Waitlist"
-               component={WaitlistScreen}
-            />
-            <Stack.Screen 
-               name="AfterSubmit"
-               component={AfterSubmitScreen}
-            />
-         </Stack.Navigator>
-      </NavigationContainer>
-   )
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name="Setup"
+          component={SetupScreen}
+        />
+        <Stack.Screen
+          name="CustomerInput"
+          component={CustomerInputScreen}
+        />
+        <Stack.Screen
+          name="Waitlist"
+          component={WaitlistScreen}
+        />
+        <Stack.Screen
+          name="AfterSubmit"
+          component={AfterSubmitScreen}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
 export default BuzzrNavigator
