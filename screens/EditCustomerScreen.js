@@ -2,17 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text, TextInput } from 'react-native'
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import CreateCustomer from '../database/CreateCustomer'
+import EditCustomer from '../database/EditCustomer'
 
 function CustomerInputScreen (props) {
   //// STATE
 
-  const [name, setName] = useState('')
-  const [partySize, setPartySize] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
+  const [name, setName] = useState(props.route.params.customer.name)
+  const [partySize, setPartySize] = useState(
+    props.route.params.customer.party_size.toString()
+  )
+  const [phoneNumber, setPhoneNumber] = useState(
+    props.route.params.customer.phone_number.slice(-10)
+  )
   const [nameInputRef, setNameInputRef] = useState()
   const [partySizeInputRef, setPartySizeInputRef] = useState()
   const [phoneNumberInputRef, setPhoneNumberInputRef] = useState()
+  const [saveSuccessful, setSaveSuccessful] = useState()
 
   //// CONSTRUCTOR
 
@@ -20,29 +25,19 @@ function CustomerInputScreen (props) {
 
   //// FUNCTIONS
 
-  async function submit () {
-    // some brief input validation
-    if (name && partySize && typeof partySize == 'number' && phoneNumber) {
-      // set up object to put into database
+  async function updateCustomer () {
       var customer = {
-        customerID: Math.floor(Math.random() * 1000000000).toString(),
+        customerID: props.route.params.customer.customerID,
         name: name,
         phone_number: '+1' + phoneNumber,
         party_size: partySize,
-        checkin_time: Date.now()
+        checkin_time: props.route.params.customer.checkin_time
       }
 
-      nameInputRef.clear()
-      partySizeInputRef.clear()
-      phoneNumberInputRef.clear()
-
       // call function to create new customer and store status, then navigate to feedback screen
-      await CreateCustomer(customer).then(status => {
-        props.navigation.navigate('AfterSubmit', { wasSuccessful: status })
+      await EditCustomer(customer).then(status => {
+        setSaveSuccessful(status ? 'yes' : 'no')
       })
-    } else {
-      console.log('input is not valid')
-    }
   }
 
   //// RENDER
@@ -89,9 +84,16 @@ function CustomerInputScreen (props) {
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.submitButton} onPress={submit}>
-        <Text style={styles.submitButtonText}>Add to Waitlist</Text>
+      <TouchableOpacity style={styles.submitButton} onPress={updateCustomer}>
+        <Text style={styles.submitButtonText}>Save</Text>
       </TouchableOpacity>
+      <Text style={styles.labelText}>
+        {saveSuccessful
+          ? saveSuccessful === 'yes'
+            ? 'Edit successful'
+            : 'Edit not successful'
+          : ''}
+      </Text>
     </View>
   )
 }
