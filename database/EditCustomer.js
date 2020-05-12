@@ -7,11 +7,18 @@ async function EditCustomer(customer) {
 
     var params = {
         TableName: config.restaurant,
-        Key: {"customerID": customer.customerID},
-        UpdateExpression:  `set name = :name, 
-                            party_size = :party_size, 
-                            checkin_time = :time`,
+        ConditionExpression: "#id = :id",
+        UpdateExpression:  `set #n = :name, 
+                            #ps = :party_size, 
+                            #cit = :time`,
+        ExpressionAttributeNames: {
+            "#id": "customerID",
+            "#n": "name",
+            "#ps": "party_size",
+            "#cit": "checkin_time"
+        },
         ExpressionAttributeValues: {
+            ":id": customer.customerID,
             ":name": customer.name,
             ":party_size": customer.party_size,
             ":time": customer.checkin_time
