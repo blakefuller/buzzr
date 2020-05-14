@@ -9,11 +9,7 @@ async function DeleteCustomer(id) {
       TableName: config.restaurant,
       Key: {
          "customerID": id
-      },
-      // KeyConditionExpression: "customerID = :id",
-      // ExpressionAttributeValues: {
-      //    ":id": id
-      // }
+      }
    };
 
    return new Promise(resolve => {
