@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, FlatList, RefreshControl } from 'react-native'
 import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import GetWaitlist from '../database/GetWaitlist'
+import GetCustomer from '../database/GetCustomer'
 import CustomerItem from '../components/CustomerItem'
 import HeaderButtons from '../components/HeaderButtons'
 import BuzzrModal from '../components/BuzzrModal'
@@ -12,6 +13,7 @@ function WaitlistScreen (props) {
   //// STATE
 
   const [waitlist, setWaitlist] = useState([])
+  const [waitTimes, setWaitTimes] = useState({})
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   // modal states
@@ -24,6 +26,9 @@ function WaitlistScreen (props) {
   useEffect(() => {
     props.navigation.setOptions(setNavOptions())
     getWaitlist()
+    GetCustomer('wait_times').then(waitTimes => {
+      setWaitTimes(waitTimes.Items[0])
+    })
   }, [])
 
   //// FUNCTIONS
@@ -31,6 +36,7 @@ function WaitlistScreen (props) {
   function getWaitlist () {
     setIsRefreshing(true)
     GetWaitlist().then(waitlist => {
+      // console.log(waitlist.Items)
       setWaitlist(waitlist.Items)
       setIsRefreshing(false)
     })

@@ -1,13 +1,13 @@
-import AWS from '../AWS.config';
-const config = require('../AWS.config.json');
+import AWS from '../AWS.config'
+const config = require('../AWS.config.json')
 
 let docClient = new AWS.DynamoDB.DocumentClient()
 
 async function GetWaitlist () {
   var params = {
     TableName: config.restaurant,
-    FilterExpression: "customerID <> :wt",
-    ExpressionAttributeValues: {":wt": "wait_times"}
+    FilterExpression: 'customerID <> :wt',
+    ExpressionAttributeValues: { ':wt': 'wait_times' }
   }
 
   return new Promise(resolve => {

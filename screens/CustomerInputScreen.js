@@ -38,7 +38,10 @@ function CustomerInputScreen (props) {
 
       // call function to create new customer and store status, then navigate to feedback screen
       await CreateCustomer(customer).then(status => {
-        props.navigation.navigate('AfterSubmit', { wasSuccessful: status })
+        props.navigation.navigate('AfterSubmit', {
+          wasSuccessful: status,
+          partySize: partySize
+        })
       })
     } else {
       console.log('input is not valid')

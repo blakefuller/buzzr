@@ -15,19 +15,17 @@ function CustomerItem (props) {
 
   //// FUNCTIONS
 
-  console.log(props.notifiedTime)
-
   async function notifyCustomer () {
     // BLAKE: add notifiedtime variable to db
-      var customer = {
-        customerID: props.id,
-        notified_time: Date.now()
-      }
+    var customer = {
+      customerID: props.id,
+      notified_time: Date.now()
+    }
 
-      // call function to create new customer and store status, then navigate to feedback screen
-      await EditCustomer(customer).then(status => {
-        props.refresh()
-      })
+    // call function to create new customer and store status, then navigate to feedback screen
+    await EditCustomer(customer).then(status => {
+      props.refresh()
+    })
   }
 
   function showCustomerModal () {
@@ -39,9 +37,7 @@ function CustomerItem (props) {
 
   var notifiedComponent = props.notifiedTime ? (
     <View>
-      <Text>{Math.round(
-          (Date.now() - props.notifiedTime) / 60000
-        )}min</Text>
+      <Text>{Math.round((Date.now() - props.notifiedTime) / 60000)}min</Text>
     </View>
   ) : (
     <TouchableOpacity

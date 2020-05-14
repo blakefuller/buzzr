@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { colors, scaleMultiplier } from '../constants'
 import { Ionicons } from '@expo/vector-icons'
-
+import GetCustomer from '../database/GetCustomer'
 function SetupScreen (props) {
   //// STATE
 
@@ -17,7 +17,24 @@ function SetupScreen (props) {
 
   //// CONSTRUCTOR
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (props.route.params.wasSuccessful)
+      GetCustomer('wait_times').then(waitTimes => {
+        var roundedPartySize = props.route.params.partySize
+        switch (roundedPartySize) {
+          case 3:
+            roundedPartySize = 4
+            break
+          case 5:
+            roundedPartySize = 4
+            break
+          default:
+            roundedPartySize = 8
+            break
+        }
+        setWaitTime(waitTimes.Items[0][props.route.params.partySize])
+      })
+  }, [])
 
   //// FUNCTIONS
 

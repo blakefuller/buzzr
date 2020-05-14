@@ -11,12 +11,8 @@ function CustomerInputScreen (props) {
   const [partySize, setPartySize] = useState(
     props.route.params.customer.party_size.toString()
   )
-  const [phoneNumber, setPhoneNumber] = useState(
-    props.route.params.customer.phone_number.slice(-10)
-  )
   const [nameInputRef, setNameInputRef] = useState()
   const [partySizeInputRef, setPartySizeInputRef] = useState()
-  const [phoneNumberInputRef, setPhoneNumberInputRef] = useState()
   const [saveSuccessful, setSaveSuccessful] = useState()
 
   //// CONSTRUCTOR
@@ -26,18 +22,16 @@ function CustomerInputScreen (props) {
   //// FUNCTIONS
 
   async function updateCustomer () {
-      var customer = {
-        customerID: props.route.params.customer.customerID,
-        name: name,
-        phone_number: '+1' + phoneNumber,
-        party_size: partySize,
-        checkin_time: props.route.params.customer.checkin_time
-      }
+    var customer = {
+      customerID: props.route.params.customer.customerID,
+      name: name,
+      party_size: partySize
+    }
 
-      // call function to create new customer and store status, then navigate to feedback screen
-      await EditCustomer(customer).then(status => {
-        setSaveSuccessful(status ? 'yes' : 'no')
-      })
+    // call function to create new customer and store status, then navigate to feedback screen
+    await EditCustomer(customer).then(status => {
+      setSaveSuccessful(status ? 'yes' : 'no')
+    })
   }
 
   //// RENDER
@@ -68,19 +62,6 @@ function CustomerInputScreen (props) {
             keyboardType='number-pad'
             value={partySize ? partySize.toString() : ''}
             ref={input => setPartySizeInputRef(input)}
-          />
-        </View>
-        <View style={styles.formContainer}>
-          <Text style={styles.labelText}>Phone Number</Text>
-          <TextInput
-            style={[
-              styles.nameInputContainer,
-              { width: 200 * scaleMultiplier }
-            ]}
-            onChangeText={text => setPhoneNumber(text)}
-            keyboardType='number-pad'
-            value={phoneNumber}
-            ref={input => setPhoneNumberInputRef(input)}
           />
         </View>
       </View>
