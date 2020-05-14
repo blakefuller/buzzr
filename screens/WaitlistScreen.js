@@ -4,6 +4,7 @@ import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import GetWaitlist from '../database/GetWaitlist'
 import GetCustomer from '../database/GetCustomer'
+import DeleteCustomer from '../database/DeleteCustomer'
 import CustomerItem from '../components/CustomerItem'
 import HeaderButtons from '../components/HeaderButtons'
 import BuzzrModal from '../components/BuzzrModal'
@@ -65,7 +66,12 @@ function WaitlistScreen (props) {
 
   function deleteCustomer () {
     // BLAKE: delete customer using modalCustomer object
+    DeleteCustomer(modalCustomer.customerID)
+    setShowOptionsModal(false)
+    getWaitlist()
   }
+
+  function editWaitTimes () {}
 
   //// RENDER
 
