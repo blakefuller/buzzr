@@ -4,8 +4,10 @@ import { colors, scaleMultiplier } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import GetWaitlist from '../database/GetWaitlist'
 import GetCustomer from '../database/GetCustomer'
+import EditWaitTimes from '../database/EditWaittimes'
 import DeleteCustomer from '../database/DeleteCustomer'
 import CustomerItem from '../components/CustomerItem'
+import WaitTimeItem from '../components/WaitTimeItem'
 import HeaderButtons from '../components/HeaderButtons'
 import BuzzrModal from '../components/BuzzrModal'
 import ModalButton from '../components/ModalButton'
@@ -27,9 +29,7 @@ function WaitlistScreen (props) {
   useEffect(() => {
     props.navigation.setOptions(setNavOptions())
     getWaitlist()
-    GetCustomer('wait_times').then(waitTimes => {
-      setWaitTimes(waitTimes.Items[0])
-    })
+    getWaitTimes()
   }, [])
 
   //// FUNCTIONS
@@ -40,6 +40,12 @@ function WaitlistScreen (props) {
       // console.log(waitlist.Items)
       setWaitlist(waitlist.Items)
       setIsRefreshing(false)
+    })
+  }
+
+  function getWaitTimes () {
+    GetCustomer('wait_times').then(waitTimes => {
+      setWaitTimes(waitTimes.Items[0])
     })
   }
 
@@ -71,7 +77,11 @@ function WaitlistScreen (props) {
     getWaitlist()
   }
 
-  function editWaitTimes () {}
+  function editWaitTimes (partySize, change) {
+    var localWaitTimes = waitTimes
+    localWaitTimes[partySize] = waitTimes[partySize] + change
+    EditWaitTimes(localWaitTimes).then(() => getWaitTimes())
+  }
 
   //// RENDER
 
@@ -141,7 +151,41 @@ function WaitlistScreen (props) {
         hideModal={() => setShowWaitTimeModal(false)}
         closeText='Close'
       >
-        <Text>Waittime stuff goes here</Text>
+        <WaitTimeItem
+          editWaitTimes={(partySize, change) =>
+            editWaitTimes(partySize, change)
+          }
+          waitTimes={waitTimes}
+          partySize='1'
+        />
+        <WaitTimeItem
+          editWaitTimes={(partySize, change) =>
+            editWaitTimes(partySize, change)
+          }
+          waitTimes={waitTimes}
+          partySize='2'
+        />
+        <WaitTimeItem
+          editWaitTimes={(partySize, change) =>
+            editWaitTimes(partySize, change)
+          }
+          waitTimes={waitTimes}
+          partySize='4'
+        />
+        <WaitTimeItem
+          editWaitTimes={(partySize, change) =>
+            editWaitTimes(partySize, change)
+          }
+          waitTimes={waitTimes}
+          partySize='6'
+        />
+        <WaitTimeItem
+          editWaitTimes={(partySize, change) =>
+            editWaitTimes(partySize, change)
+          }
+          waitTimes={waitTimes}
+          partySize='8+'
+        />
       </BuzzrModal>
       <BuzzrModal
         isVisible={showOptionsModal}
