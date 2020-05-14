@@ -37,7 +37,9 @@ function CustomerItem (props) {
 
   var notifiedComponent = props.notifiedTime ? (
     <View>
-      <Text>{Math.round((Date.now() - props.notifiedTime) / 60000)}min</Text>
+      <Text style={styles.customerFieldText}>
+        {Math.round((Date.now() - props.notifiedTime) / 60000)}min
+      </Text>
     </View>
   ) : (
     <TouchableOpacity

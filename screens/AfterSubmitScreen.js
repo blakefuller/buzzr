@@ -21,18 +21,11 @@ function SetupScreen (props) {
     if (props.route.params.wasSuccessful)
       GetCustomer('wait_times').then(waitTimes => {
         var roundedPartySize = props.route.params.partySize
-        switch (roundedPartySize) {
-          case 3:
-            roundedPartySize = 4
-            break
-          case 5:
-            roundedPartySize = 4
-            break
-          default:
-            roundedPartySize = 8
-            break
-        }
-        setWaitTime(waitTimes.Items[0][props.route.params.partySize])
+        if (roundedPartySize === 3) roundedPartySize = '4'
+        else if (roundedPartySize === 5) roundedPartySize = '6'
+        else if (roundedPartySize === 7) roundedPartySize = '8+'
+        else if (roundedPartySize > 8) roundedPartySize = '8+'
+        setWaitTime(waitTimes.Items[0][roundedPartySize])
       })
   }, [])
 

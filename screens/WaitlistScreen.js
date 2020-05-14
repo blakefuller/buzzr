@@ -135,7 +135,9 @@ function WaitlistScreen (props) {
       </View>
       <View style={{ flex: 1 }}>
         <FlatList
-          data={waitlist}
+          data={waitlist.sort((a, b) => {
+            return a.checkin_time - b.checkin_time
+          })}
           renderItem={renderCustomer}
           keyExtractor={item => item.customerID}
           refreshControl={
@@ -143,6 +145,19 @@ function WaitlistScreen (props) {
               refreshing={isRefreshing}
               onRefresh={() => getWaitlist()}
             />
+          }
+          ListEmptyComponent={
+            <View style={{ margin: 10 }}>
+              <Text
+                style={{
+                  fontFamily: 'regular',
+                  fontSize: 12 * scaleMultiplier,
+                  color: colors.onBackground + '70'
+                }}
+              >
+                No customers on the waitlist! Take a breather :)
+              </Text>
+            </View>
           }
         />
       </View>
