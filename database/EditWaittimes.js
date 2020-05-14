@@ -18,11 +18,11 @@ async function EditWaittimes(waittimes) {
       "#8": "8+"
     },
     ExpressionAttributeValues: {
-      ":1": waittimes.one,
-      ":2": waittimes.two,
-      ":4": waittimes.four,
-      ":6": waittimes.six,
-      ":8": waittimes.eightplus
+      ":1": waittimes["1"],
+      ":2": waittimes["2"],
+      ":4": waittimes["4"],
+      ":6": waittimes["6"],
+      ":8": waittimes["8+"]
     },
     ReturnValues: "UPDATED_NEW"
   }
