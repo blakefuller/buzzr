@@ -11,6 +11,7 @@ import WaitTimeItem from '../components/WaitTimeItem'
 import HeaderButtons from '../components/HeaderButtons'
 import BuzzrModal from '../components/BuzzrModal'
 import ModalButton from '../components/ModalButton'
+import NetInfo from '@react-native-community/netinfo'
 
 function WaitlistScreen (props) {
   //// STATE
@@ -18,6 +19,7 @@ function WaitlistScreen (props) {
   const [waitlist, setWaitlist] = useState([])
   const [waitTimes, setWaitTimes] = useState({})
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isConnected, setIsConnected] = useState(true)
 
   // modal states
   const [modalCustomer, setModalCustomer] = useState({})
@@ -30,6 +32,9 @@ function WaitlistScreen (props) {
     props.navigation.setOptions(setNavOptions())
     getWaitlist()
     getWaitTimes()
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected)
+    })
   }, [])
 
   //// FUNCTIONS
@@ -155,8 +160,17 @@ function WaitlistScreen (props) {
     )
   }
 
+  var networkIndicator = isConnected ? null : (
+    <View style={styles.networkIndicator}>
+      <Text style={[styles.headerText, { textAlign: 'center' }]}>
+        No internet connection
+      </Text>
+    </View>
+  )
+
   return (
     <View style={styles.screen}>
+      {networkIndicator}
       <View style={styles.headerBar}>
         <View
           style={[styles.headerButton, { flex: 1, justifyContent: 'center' }]}
@@ -394,6 +408,12 @@ const styles = StyleSheet.create({
     color: '#00000080',
     textAlign: 'center',
     margin: 10
+  },
+  networkIndicator: {
+    height: 30,
+    backgroundColor: colors.error,
+    width: '100%',
+    alignItems: 'center'
   }
 })
 
