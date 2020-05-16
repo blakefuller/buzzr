@@ -7,7 +7,7 @@ import {
   Image,
   Picker
 } from 'react-native'
-import { colors, scaleMultiplier } from '../constants'
+import { colors } from '../constants'
 
 function SetupScreen (props) {
   //// STATE
@@ -69,10 +69,10 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     textAlign: 'center',
     color: colors.onPrimary,
-    fontSize: 40 * scaleMultiplier
+    fontSize: 40
   },
   logo: {
-    width: 400 * scaleMultiplier,
+    width: 400,
     height: 200,
     resizeMode: 'contain'
   },
@@ -84,19 +84,19 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     textAlign: 'center',
     color: colors.onPrimary,
-    fontSize: 25 * scaleMultiplier
+    fontSize: 25
   },
   picker: {
-    height: 50 * scaleMultiplier,
-    width: 300 * scaleMultiplier,
+    height: 50,
+    width: 300,
     backgroundColor: colors.background,
     justifyContent: 'center',
     borderRadius: 10,
-    marginTop: 35 * scaleMultiplier
+    marginTop: 35
   },
   startButton: {
-    width: 300 * scaleMultiplier,
-    height: 65 * scaleMultiplier,
+    width: 300,
+    height: 65,
     backgroundColor: colors.secondary,
     alignContent: 'center',
     justifyContent: 'center',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     textAlign: 'center',
     color: colors.onSecondary,
-    fontSize: 25 * scaleMultiplier
+    fontSize: 25
   }
 })
 

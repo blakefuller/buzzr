@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text, FlatList, RefreshControl } from 'react-native'
-import { colors, scaleMultiplier } from '../constants'
+import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import GetWaitlist from '../database/GetWaitlist'
 import GetCustomer from '../database/GetCustomer'
@@ -23,7 +23,7 @@ function WaitlistScreen (props) {
   const [modalCustomer, setModalCustomer] = useState({})
   const [showWaitTimeModal, setShowWaitTimeModal] = useState(false)
   const [showOptionsModal, setShowOptionsModal] = useState(false)
-
+  const [showSortModal, setShowSortModal] = useState(false)
   //// CONSTRUCTOR
 
   useEffect(() => {
@@ -36,16 +36,69 @@ function WaitlistScreen (props) {
 
   function getWaitlist () {
     setIsRefreshing(true)
-    GetWaitlist().then(waitlist => {
-      // console.log(waitlist.Items)
-      setWaitlist(waitlist.Items)
-      setIsRefreshing(false)
-    })
+    sortWaitTimes('')
+    setIsRefreshing(false)
   }
 
   function getWaitTimes () {
     GetCustomer('wait_times').then(waitTimes => {
       setWaitTimes(waitTimes.Items[0])
+    })
+  }
+
+  function sortWaitTimes (sort) {
+    GetWaitlist().then(waitlist => {
+      // console.log(waitlist.Items)
+      switch (sort) {
+        case 'size':
+          setWaitlist(
+            waitlist.Items.sort((a, b) => {
+              return a.checkin_time - b.checkin_time
+            }).sort((a, b) => {
+              return a.party_size - b.party_size
+            })
+          )
+          break
+        case 'size-reverse':
+          setWaitlist(
+            waitlist.Items.sort((a, b) => {
+              return a.checkin_time - b.checkin_time
+            }).sort((a, b) => {
+              return b.party_size - a.party_size
+            })
+          )
+          break
+        case 'reverse':
+          setWaitlist(
+            waitlist.Items.sort((a, b) => {
+              return b.checkin_time - a.checkin_time
+            })
+          )
+          break
+        case 'alphabetical':
+          setWaitlist(
+            waitlist.Items.sort((a, b) => {
+              return b.name.localeCompare(a.name)
+            })
+          )
+          break
+        case 'alphabetical-reverse':
+          setWaitlist(
+            waitlist.Items.sort((a, b) => {
+              return a.name.localeCompare(b.name)
+            })
+          )
+          break
+        default:
+          setWaitlist(
+            waitlist.Items.sort((a, b) => {
+              return a.checkin_time - b.checkin_time
+            })
+          )
+          break
+      }
+
+      setIsRefreshing(false)
     })
   }
 
@@ -64,7 +117,7 @@ function WaitlistScreen (props) {
           button1Name='file-document-outline'
           button1OnPress={() => {}}
           button2Name='sort'
-          button2OnPress={() => {}}
+          button2OnPress={() => setShowSortModal(true)}
         />
       )
     }
@@ -115,7 +168,7 @@ function WaitlistScreen (props) {
         <View
           style={[
             styles.headerButton,
-            { flex: 5, justifyContent: 'flex-start' }
+            { flex: 3, justifyContent: 'flex-start' }
           ]}
         >
           <TouchableOpacity onPress={() => {}}>
@@ -135,9 +188,7 @@ function WaitlistScreen (props) {
       </View>
       <View style={{ flex: 1 }}>
         <FlatList
-          data={waitlist.sort((a, b) => {
-            return a.checkin_time - b.checkin_time
-          })}
+          data={waitlist}
           renderItem={renderCustomer}
           keyExtractor={item => item.customerID}
           refreshControl={
@@ -151,7 +202,7 @@ function WaitlistScreen (props) {
               <Text
                 style={{
                   fontFamily: 'regular',
-                  fontSize: 12 * scaleMultiplier,
+                  fontSize: 12,
                   color: colors.onBackground + '70'
                 }}
               >
@@ -166,12 +217,19 @@ function WaitlistScreen (props) {
         hideModal={() => setShowWaitTimeModal(false)}
         closeText='Close'
       >
+        <Text style={styles.sortByText}>Set wait times:</Text>
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
         <WaitTimeItem
           editWaitTimes={(partySize, change) =>
             editWaitTimes(partySize, change)
           }
           waitTimes={waitTimes}
           partySize='1'
+        />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
         />
         <WaitTimeItem
           editWaitTimes={(partySize, change) =>
@@ -180,6 +238,10 @@ function WaitlistScreen (props) {
           waitTimes={waitTimes}
           partySize='2'
         />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+
         <WaitTimeItem
           editWaitTimes={(partySize, change) =>
             editWaitTimes(partySize, change)
@@ -187,6 +249,10 @@ function WaitlistScreen (props) {
           waitTimes={waitTimes}
           partySize='4'
         />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+
         <WaitTimeItem
           editWaitTimes={(partySize, change) =>
             editWaitTimes(partySize, change)
@@ -194,6 +260,10 @@ function WaitlistScreen (props) {
           waitTimes={waitTimes}
           partySize='6'
         />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+
         <WaitTimeItem
           editWaitTimes={(partySize, change) =>
             editWaitTimes(partySize, change)
@@ -216,7 +286,77 @@ function WaitlistScreen (props) {
             })
           }}
         />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
         <ModalButton title='Delete Customer' onPress={() => deleteCustomer()} />
+      </BuzzrModal>
+      <BuzzrModal
+        isVisible={showSortModal}
+        hideModal={() => setShowSortModal(false)}
+        closeText='Close'
+      >
+        <Text style={styles.sortByText}>Sort by:</Text>
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+        <ModalButton
+          title='Time waited (high - low)'
+          onPress={() => {
+            sortWaitTimes('')
+            setShowSortModal(false)
+          }}
+        />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+        <ModalButton
+          title='Time waited (low - high)'
+          onPress={() => {
+            sortWaitTimes('reverse')
+            setShowSortModal(false)
+          }}
+        />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+        <ModalButton
+          title='Party size (smallest)'
+          onPress={() => {
+            sortWaitTimes('size')
+            setShowSortModal(false)
+          }}
+        />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+        <ModalButton
+          title='Party size (biggest)'
+          onPress={() => {
+            sortWaitTimes('size-reverse')
+            setShowSortModal(false)
+          }}
+        />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+        <ModalButton
+          title='Name (A-Z)'
+          onPress={() => {
+            sortWaitTimes('alphabetical')
+            setShowSortModal(false)
+          }}
+        />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+        <ModalButton
+          title='Name (Z-A)'
+          onPress={() => {
+            sortWaitTimes('alphabetical-reverse')
+            setShowSortModal(false)
+          }}
+        />
       </BuzzrModal>
     </View>
   )
@@ -232,7 +372,7 @@ const styles = StyleSheet.create({
   },
   headerBar: {
     backgroundColor: colors.primaryLight,
-    height: 30 * scaleMultiplier,
+    height: 30,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -245,8 +385,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   headerText: {
-    fontFamily: 'regular',
-    fontSize: 14 * scaleMultiplier
+    fontFamily: 'semi-bold',
+    fontSize: 14
+  },
+  sortByText: {
+    fontFamily: 'italic',
+    fontSize: 18,
+    color: '#00000080',
+    textAlign: 'center',
+    margin: 10
   }
 })
 

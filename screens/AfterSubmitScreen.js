@@ -7,7 +7,7 @@ import {
   Image,
   Picker
 } from 'react-native'
-import { colors, scaleMultiplier } from '../constants'
+import { colors } from '../constants'
 import { Ionicons } from '@expo/vector-icons'
 import GetCustomer from '../database/GetCustomer'
 function SetupScreen (props) {
@@ -43,39 +43,24 @@ function SetupScreen (props) {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.headerArea}>
-        <TouchableOpacity
-          style={styles.backButtonContainer}
-          onPress={() => props.navigation.goBack()}
-        >
-          <Ionicons
-            name='ios-arrow-back'
-            size={20 * scaleMultiplier}
-            color={colors.onSecondary}
-          />
-          <Text style={styles.backButtonText}>Return to waitlist form</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.mainSection}>
-        <Ionicons
-          name={
-            props.route.params.wasSuccessful
-              ? 'ios-checkmark-circle-outline'
-              : 'ios-close-circle-outline'
-          }
-          size={100 * scaleMultiplier}
-          color={colors.onPrimary}
-        />
-        <Text style={styles.statusHeaderText}>
-          {props.route.params.wasSuccessful ? 'Success!' : 'Error'}
-        </Text>
-        <Text style={styles.statusBodyText}>
-          {props.route.params.wasSuccessful
-            ? 'You should receive a confirmation text message shortly.'
-            : 'Please contact a host.'}
-        </Text>
-        {waitTimeComponent}
-      </View>
+      <Ionicons
+        name={
+          props.route.params.wasSuccessful
+            ? 'ios-checkmark-circle-outline'
+            : 'ios-close-circle-outline'
+        }
+        size={100}
+        color={colors.onPrimary}
+      />
+      <Text style={styles.statusHeaderText}>
+        {props.route.params.wasSuccessful ? 'Success!' : 'Error'}
+      </Text>
+      <Text style={styles.statusBodyText}>
+        {props.route.params.wasSuccessful
+          ? 'You should receive a confirmation text message shortly.'
+          : 'Please contact a host.'}
+      </Text>
+      {waitTimeComponent}
     </View>
   )
 }
@@ -89,43 +74,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.primary
   },
-  headerArea: {
-    height: 100 * scaleMultiplier,
-    alignItems: 'flex-start',
-    width: '100%'
-  },
-  backButtonContainer: {
-    backgroundColor: colors.secondary,
-    borderRadius: 10,
-    marginTop: 40,
-    marginLeft: 20,
-    padding: 15,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  backButtonText: {
-    fontFamily: 'bold',
-    color: colors.onSecondary,
-    fontSize: 24,
-    marginLeft: 10
-  },
-  mainSection: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   statusHeaderText: {
     fontFamily: 'bold',
-    fontSize: 32 * scaleMultiplier,
+    fontSize: 36,
     color: colors.onPrimary,
-    marginTop: -30,
+    marginTop: -10,
     marginBottom: 15
   },
   statusBodyText: {
     fontFamily: 'regular',
-    fontSize: 20 * scaleMultiplier,
+    fontSize: 24,
     color: colors.onPrimary,
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: 10
   },
   waitTimeContianer: {
     width: '80%',
@@ -134,11 +95,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 30,
-    marginTop: 30 * scaleMultiplier
+    marginTop: 30
   },
   waitTimeText: {
     fontFamily: 'bold',
-    fontSize: 30,
+    fontSize: 28,
     textAlign: 'center',
     color: colors.onBackground
   }

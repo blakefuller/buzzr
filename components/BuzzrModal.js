@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Modal from 'react-native-modal'
-import { scaleMultiplier } from '../constants'
+import {} from '../constants'
 
 function BuzzrModal (props) {
   //// RENDER
@@ -24,7 +24,7 @@ function BuzzrModal (props) {
               style={{
                 textAlign: 'center',
                 fontFamily: 'semi-bold',
-                fontSize: 18 * scaleMultiplier,
+                fontSize: 20,
                 color: '#FF0800'
               }}
             >
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   closeButtonContainer: {
     width: '100%',
-    height: 50 * scaleMultiplier,
+    height: 70,
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
