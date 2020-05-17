@@ -9,7 +9,7 @@ function ModalButton (props) {
     <TouchableOpacity
       style={[
         styles.modalButtonStyle,
-        { backgroundColor: props.isActive ? colors.primary : colors.background }
+        { backgroundColor: props.isActive ? colors.primary : null }
       ]}
       onPress={props.onPress}
     >
