@@ -65,7 +65,7 @@ function CustomerItem (props) {
   return (
     <TouchableOpacity
       style={styles.customerItemContainer}
-      onLongPress={() => showCustomerModal()}
+      onPress={() => showCustomerModal()}
     >
       <View
         style={[
