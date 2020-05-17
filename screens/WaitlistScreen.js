@@ -30,7 +30,7 @@ function WaitlistScreen (props) {
   const [name, setName] = useState('')
   const [partySize, setPartySize] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [currentSort, setCurrentSort] = useState('default')
+  const [currentSort, setCurrentSort] = useState('')
 
   // modal states
   const [modalCustomer, setModalCustomer] = useState({})
@@ -120,23 +120,24 @@ function WaitlistScreen (props) {
               return b.checkin_time - a.checkin_time
             })
           )
+          setCurrentSort('reverse')
           break
-        case 'alphabetical':
+        case 'alphabetical-reverse':
           setWaitlist(
             waitlist.Items.sort((a, b) => {
               return b.name.localeCompare(a.name)
             })
           )
-          setCurrentSort('alphabetical')
+          setCurrentSort('alphabetical-reverse')
 
           break
-        case 'alphabetical-reverse':
+        case 'alphabetical':
           setWaitlist(
             waitlist.Items.sort((a, b) => {
               return a.name.localeCompare(b.name)
             })
           )
-          setCurrentSort('alphabetical-reverse')
+          setCurrentSort('alphabetical')
           break
         default:
           setWaitlist(
@@ -144,7 +145,7 @@ function WaitlistScreen (props) {
               return a.checkin_time - b.checkin_time
             })
           )
-          setCurrentSort('default')
+          setCurrentSort('')
           break
       }
       setIsRefreshing(false)
@@ -219,9 +220,9 @@ function WaitlistScreen (props) {
         <View
           style={[styles.headerButton, { flex: 1, justifyContent: 'center' }]}
         >
-          <TouchableOpacity onPress={() => {}}>
+          <View>
             <Text style={styles.headerText}>Size</Text>
-          </TouchableOpacity>
+          </View>
         </View>
         <View
           style={[
@@ -229,19 +230,19 @@ function WaitlistScreen (props) {
             { flex: 3, justifyContent: 'flex-start' }
           ]}
         >
-          <TouchableOpacity onPress={() => {}}>
+          <View>
             <Text style={styles.headerText}>Name</Text>
-          </TouchableOpacity>
+          </View>
         </View>
         <View style={[styles.headerButton, { flex: 2 }]}>
-          <TouchableOpacity onPress={() => {}}>
+          <View>
             <Text style={styles.headerText}>Waiting</Text>
-          </TouchableOpacity>
+          </View>
         </View>
         <View style={[styles.headerButton, { flex: 2 }]}>
-          <TouchableOpacity onPress={() => {}}>
+          <View>
             <Text style={styles.headerText}>Notified</Text>
-          </TouchableOpacity>
+          </View>
         </View>
       </View>
       <View style={{ flex: 1 }}>
@@ -364,6 +365,7 @@ function WaitlistScreen (props) {
             sortWaitlist('')
             setShowSortModal(false)
           }}
+          isActive={currentSort === ''}
         />
         <View
           style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
@@ -374,6 +376,7 @@ function WaitlistScreen (props) {
             sortWaitlist('reverse')
             setShowSortModal(false)
           }}
+          isActive={currentSort === 'reverse'}
         />
         <View
           style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
@@ -384,6 +387,7 @@ function WaitlistScreen (props) {
             sortWaitlist('size')
             setShowSortModal(false)
           }}
+          isActive={currentSort === 'size'}
         />
         <View
           style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
@@ -394,6 +398,7 @@ function WaitlistScreen (props) {
             sortWaitlist('size-reverse')
             setShowSortModal(false)
           }}
+          isActive={currentSort === 'size-reverse'}
         />
         <View
           style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
@@ -404,6 +409,7 @@ function WaitlistScreen (props) {
             sortWaitlist('alphabetical')
             setShowSortModal(false)
           }}
+          isActive={currentSort === 'alphabetical'}
         />
         <View
           style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
@@ -414,6 +420,7 @@ function WaitlistScreen (props) {
             sortWaitlist('alphabetical-reverse')
             setShowSortModal(false)
           }}
+          isActive={currentSort === 'alphabetical-reverse'}
         />
       </BuzzrModal>
       <BuzzrModal

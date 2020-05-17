@@ -1,12 +1,18 @@
 import React from 'react'
 import { TouchableOpacity, StyleSheet, Text } from 'react-native'
-import {} from '../constants'
+import { colors } from '../constants'
 
 function ModalButton (props) {
   //// RETURN
 
   return (
-    <TouchableOpacity style={styles.modalButtonStyle} onPress={props.onPress}>
+    <TouchableOpacity
+      style={[
+        styles.modalButtonStyle,
+        { backgroundColor: props.isActive ? colors.primary : colors.background }
+      ]}
+      onPress={props.onPress}
+    >
       <Text style={[styles.text, props.style, { fontFamily: 'regular' }]}>
         {props.title}
       </Text>
@@ -24,7 +30,8 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    color: colors.onBackground
   }
 })
 
