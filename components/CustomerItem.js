@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
-import { colors, scaleMultiplier } from '../constants'
+import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import EditCustomer from '../database/EditCustomer'
 
@@ -15,19 +15,17 @@ function CustomerItem (props) {
 
   //// FUNCTIONS
 
-  console.log(props.notifiedTime)
-
   async function notifyCustomer () {
     // BLAKE: add notifiedtime variable to db
-      var customer = {
-        customerID: props.id,
-        notified_time: Date.now()
-      }
+    var customer = {
+      customerID: props.id,
+      notified_time: Date.now()
+    }
 
-      // call function to create new customer and store status, then navigate to feedback screen
-      await EditCustomer(customer).then(status => {
-        props.refresh()
-      })
+    // call function to create new customer and store status, then navigate to feedback screen
+    await EditCustomer(customer).then(status => {
+      props.refresh()
+    })
   }
 
   function showCustomerModal () {
@@ -39,9 +37,9 @@ function CustomerItem (props) {
 
   var notifiedComponent = props.notifiedTime ? (
     <View>
-      <Text>{Math.round(
-          (Date.now() - props.notifiedTime) / 60000
-        )}min</Text>
+      <Text style={[styles.customerFieldText, { fontSize: 16 }]}>
+        {Math.round((Date.now() - props.notifiedTime) / 60000)}min
+      </Text>
     </View>
   ) : (
     <TouchableOpacity
@@ -54,9 +52,8 @@ function CustomerItem (props) {
           styles.customerFieldText,
           {
             color: colors.primaryDark,
-            fontSize: notifyPressed
-              ? 10 * scaleMultiplier
-              : 14 * scaleMultiplier
+            fontSize: notifyPressed ? 14 : 16,
+            textAlign: 'center'
           }
         ]}
       >
@@ -76,18 +73,22 @@ function CustomerItem (props) {
           { flex: 1, justifyContent: 'center' }
         ]}
       >
-        <Text style={styles.customerFieldText}>{props.partySize}</Text>
+        <Text style={[styles.customerFieldText, { fontFamily: 'italic' }]}>
+          {props.partySize}
+        </Text>
       </View>
       <View
         style={[
           styles.customerFieldContainer,
-          { flex: 5, justifyContent: 'flex-start' }
+          { flex: 3, justifyContent: 'flex-start' }
         ]}
       >
         <Text style={styles.customerFieldText}>{props.name}</Text>
       </View>
       <View style={[styles.customerFieldContainer, { flex: 2 }]}>
-        <Text style={styles.customerFieldText}>{props.checkinTime}min</Text>
+        <Text style={[styles.customerFieldText, { fontSize: 16 }]}>
+          {props.checkinTime}min
+        </Text>
       </View>
       <View style={[styles.customerFieldContainer, { flex: 2 }]}>
         {notifiedComponent}
@@ -100,7 +101,7 @@ function CustomerItem (props) {
 
 const styles = StyleSheet.create({
   customerItemContainer: {
-    height: 30 * scaleMultiplier,
+    height: 50,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
   },
   customerFieldText: {
     fontFamily: 'light',
-    fontSize: 14 * scaleMultiplier
+    fontSize: 16
   },
   notifyButton: {
     flex: 1
