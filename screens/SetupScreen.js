@@ -58,12 +58,13 @@ function SetupScreen (props) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.primary
   },
   headerContainer: {
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginVertical: 50
   },
   welcomeText: {
     fontFamily: 'bold',
@@ -72,13 +73,13 @@ const styles = StyleSheet.create({
     fontSize: 40
   },
   logo: {
-    width: 400,
-    height: 200,
+    height: 120,
     resizeMode: 'contain'
   },
   viewSelectContainer: {
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 50
   },
   viewSelectText: {
     fontFamily: 'bold',

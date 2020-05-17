@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, TextInput } from 'react-native'
+import { View, StyleSheet, Text, TextInput, Dimensions } from 'react-native'
 import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import CreateCustomer from '../database/CreateCustomer'
@@ -56,7 +56,10 @@ function CustomerInputScreen (props) {
         <View style={styles.formContainer}>
           <Text style={styles.labelText}>Name</Text>
           <TextInput
-            style={[styles.nameInputContainer, { width: 350 }]}
+            style={[
+              styles.nameInputContainer,
+              { width: Dimensions.get('window').width >= 500 ? 500 : 350 }
+            ]}
             autoFocus={true}
             onChangeText={text => setName(text)}
             autoCapitalize='words'
@@ -68,7 +71,10 @@ function CustomerInputScreen (props) {
         <View style={styles.formContainer}>
           <Text style={styles.labelText}>Party Size</Text>
           <TextInput
-            style={[styles.nameInputContainer, { width: 60 }]}
+            style={[
+              styles.nameInputContainer,
+              { width: Dimensions.get('window').width >= 500 ? 80 : 60 }
+            ]}
             onChangeText={text => setPartySize(parseInt(text))}
             keyboardType='number-pad'
             value={partySize ? partySize.toString() : ''}
@@ -78,7 +84,10 @@ function CustomerInputScreen (props) {
         <View style={styles.formContainer}>
           <Text style={styles.labelText}>Phone Number</Text>
           <TextInput
-            style={[styles.nameInputContainer, { width: 200 }]}
+            style={[
+              styles.nameInputContainer,
+              { width: Dimensions.get('window').width >= 500 ? 300 : 200 }
+            ]}
             onChangeText={text => setPhoneNumber(text)}
             keyboardType='number-pad'
             value={phoneNumber}
@@ -113,11 +122,11 @@ const styles = StyleSheet.create({
     padding: 20
   },
   formContainer: {
-    marginBottom: 10
+    marginBottom: Dimensions.get('window').width >= 500 ? 30 : 10
   },
   labelText: {
     fontFamily: 'regular',
-    fontSize: 18,
+    fontSize: Dimensions.get('window').width >= 500 ? 32 : 18,
     textAlign: 'left',
     marginBottom: 5,
     color: colors.onBackground
@@ -128,11 +137,11 @@ const styles = StyleSheet.create({
     borderColor: colors.onBackground + '80',
     borderWidth: 1.5,
     padding: 13,
-    fontSize: 20
+    fontSize: Dimensions.get('window').width >= 500 ? 32 : 20
   },
   submitButton: {
-    width: 300,
-    height: 65,
+    width: Dimensions.get('window').width >= 500 ? 450 : 300,
+    height: Dimensions.get('window').width >= 500 ? 100 : 65,
     backgroundColor: colors.primary,
     alignContent: 'center',
     justifyContent: 'center',
@@ -142,7 +151,7 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     textAlign: 'center',
     color: colors.onPrimary,
-    fontSize: 25
+    fontSize: Dimensions.get('window').width >= 500 ? 32 : 24
   }
 })
 

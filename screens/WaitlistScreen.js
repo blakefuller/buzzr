@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, FlatList, RefreshControl } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  RefreshControl,
+  TextInput
+} from 'react-native'
 import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import GetWaitlist from '../database/GetWaitlist'
@@ -12,7 +19,7 @@ import HeaderButtons from '../components/HeaderButtons'
 import BuzzrModal from '../components/BuzzrModal'
 import ModalButton from '../components/ModalButton'
 import NetInfo from '@react-native-community/netinfo'
-
+import CreateCustomer from '../database/CreateCustomer'
 function WaitlistScreen (props) {
   //// STATE
 
@@ -20,12 +27,18 @@ function WaitlistScreen (props) {
   const [waitTimes, setWaitTimes] = useState({})
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [isConnected, setIsConnected] = useState(true)
+  const [name, setName] = useState('')
+  const [partySize, setPartySize] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [currentSort, setCurrentSort] = useState('default')
 
   // modal states
   const [modalCustomer, setModalCustomer] = useState({})
   const [showWaitTimeModal, setShowWaitTimeModal] = useState(false)
   const [showOptionsModal, setShowOptionsModal] = useState(false)
   const [showSortModal, setShowSortModal] = useState(false)
+  const [showAddModal, setShowAddModal] = useState(false)
+
   //// CONSTRUCTOR
 
   useEffect(() => {
@@ -39,9 +52,35 @@ function WaitlistScreen (props) {
 
   //// FUNCTIONS
 
+  async function submit () {
+    // some brief input validation
+    if (name && partySize && typeof partySize == 'number' && phoneNumber) {
+      // set up object to put into database
+      var customer = {
+        customerID: Math.floor(Math.random() * 1000000000).toString(),
+        name: name,
+        phone_number: '+1' + phoneNumber,
+        party_size: partySize,
+        checkin_time: Date.now()
+      }
+
+      setName('')
+      setPartySize('')
+      setPhoneNumber('')
+
+      // call function to create new customer and store status, then navigate to feedback screen
+      await CreateCustomer(customer).then(status => {
+        setShowAddModal(false)
+        sortWaitlist(currentSort)
+      })
+    } else {
+      console.log('input is not valid')
+    }
+  }
+
   function getWaitlist () {
     setIsRefreshing(true)
-    sortWaitTimes('')
+    sortWaitlist('')
     setIsRefreshing(false)
   }
 
@@ -51,7 +90,7 @@ function WaitlistScreen (props) {
     })
   }
 
-  function sortWaitTimes (sort) {
+  function sortWaitlist (sort) {
     GetWaitlist().then(waitlist => {
       // console.log(waitlist.Items)
       switch (sort) {
@@ -63,6 +102,7 @@ function WaitlistScreen (props) {
               return a.party_size - b.party_size
             })
           )
+          setCurrentSort('size')
           break
         case 'size-reverse':
           setWaitlist(
@@ -72,6 +112,7 @@ function WaitlistScreen (props) {
               return b.party_size - a.party_size
             })
           )
+          setCurrentSort('size-reverse')
           break
         case 'reverse':
           setWaitlist(
@@ -86,6 +127,8 @@ function WaitlistScreen (props) {
               return b.name.localeCompare(a.name)
             })
           )
+          setCurrentSort('alphabetical')
+
           break
         case 'alphabetical-reverse':
           setWaitlist(
@@ -93,6 +136,7 @@ function WaitlistScreen (props) {
               return a.name.localeCompare(b.name)
             })
           )
+          setCurrentSort('alphabetical-reverse')
           break
         default:
           setWaitlist(
@@ -100,9 +144,9 @@ function WaitlistScreen (props) {
               return a.checkin_time - b.checkin_time
             })
           )
+          setCurrentSort('default')
           break
       }
-
       setIsRefreshing(false)
     })
   }
@@ -114,7 +158,7 @@ function WaitlistScreen (props) {
           button1Name='timer'
           button1OnPress={() => setShowWaitTimeModal(true)}
           button2Name='plus'
-          button2OnPress={() => props.navigation.navigate('CustomerInput')}
+          button2OnPress={() => setShowAddModal(true)}
         />
       ),
       headerLeft: () => (
@@ -208,7 +252,7 @@ function WaitlistScreen (props) {
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
-              onRefresh={() => getWaitlist()}
+              onRefresh={() => sortWaitlist(currentSort)}
             />
           }
           ListEmptyComponent={
@@ -317,7 +361,7 @@ function WaitlistScreen (props) {
         <ModalButton
           title='Time waited (high - low)'
           onPress={() => {
-            sortWaitTimes('')
+            sortWaitlist('')
             setShowSortModal(false)
           }}
         />
@@ -327,7 +371,7 @@ function WaitlistScreen (props) {
         <ModalButton
           title='Time waited (low - high)'
           onPress={() => {
-            sortWaitTimes('reverse')
+            sortWaitlist('reverse')
             setShowSortModal(false)
           }}
         />
@@ -335,9 +379,9 @@ function WaitlistScreen (props) {
           style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
         />
         <ModalButton
-          title='Party size (smallest)'
+          title='Party size (smallest first)'
           onPress={() => {
-            sortWaitTimes('size')
+            sortWaitlist('size')
             setShowSortModal(false)
           }}
         />
@@ -345,9 +389,9 @@ function WaitlistScreen (props) {
           style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
         />
         <ModalButton
-          title='Party size (biggest)'
+          title='Party size (biggest first)'
           onPress={() => {
-            sortWaitTimes('size-reverse')
+            sortWaitlist('size-reverse')
             setShowSortModal(false)
           }}
         />
@@ -357,7 +401,7 @@ function WaitlistScreen (props) {
         <ModalButton
           title='Name (A-Z)'
           onPress={() => {
-            sortWaitTimes('alphabetical')
+            sortWaitlist('alphabetical')
             setShowSortModal(false)
           }}
         />
@@ -367,10 +411,61 @@ function WaitlistScreen (props) {
         <ModalButton
           title='Name (Z-A)'
           onPress={() => {
-            sortWaitTimes('alphabetical-reverse')
+            sortWaitlist('alphabetical-reverse')
             setShowSortModal(false)
           }}
         />
+      </BuzzrModal>
+      <BuzzrModal
+        isVisible={showAddModal}
+        hideModal={() => setShowAddModal(false)}
+        closeText='Cancel'
+      >
+        <View style={{ padding: 10 }}>
+          <View>
+            <Text style={styles.labelText}>Name</Text>
+            <TextInput
+              style={styles.nameInputContainer}
+              autoFocus={true}
+              onChangeText={text => setName(text)}
+              autoCapitalize='words'
+              autoCorrect={false}
+              value={name}
+            />
+          </View>
+          <View>
+            <Text style={styles.labelText}>Party Size</Text>
+            <TextInput
+              style={styles.nameInputContainer}
+              onChangeText={text => setPartySize(parseInt(text))}
+              keyboardType='number-pad'
+              value={partySize ? partySize.toString() : ''}
+            />
+          </View>
+          <View>
+            <Text style={styles.labelText}>Phone Number</Text>
+            <TextInput
+              style={styles.nameInputContainer}
+              onChangeText={text => setPhoneNumber(text)}
+              keyboardType='number-pad'
+              value={phoneNumber}
+            />
+          </View>
+        </View>
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+        <ModalButton
+          title='Add Customer'
+          onPress={() => {
+            submit()
+            setShowSortModal(false)
+          }}
+        />
+        <View
+          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
+        />
+        <View style={{ height: '30%' }} />
       </BuzzrModal>
     </View>
   )
@@ -414,6 +509,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.error,
     width: '100%',
     alignItems: 'center'
+  },
+  nameInputContainer: {
+    width: '100%',
+    borderRadius: 10,
+    borderColor: colors.onBackground + '80',
+    borderWidth: 1.5,
+    padding: 13,
+    fontSize: 18
+  },
+  labelText: {
+    fontFamily: 'regular',
+    fontSize: 18,
+    textAlign: 'left',
+    marginBottom: 5,
+    color: colors.onBackground
   }
 })
 
