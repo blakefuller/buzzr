@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, TextInput } from 'react-native'
-import { colors, scaleMultiplier } from '../constants'
+import { View, StyleSheet, Text, TextInput, Dimensions } from 'react-native'
+import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import CreateCustomer from '../database/CreateCustomer'
 
@@ -38,7 +38,10 @@ function CustomerInputScreen (props) {
 
       // call function to create new customer and store status, then navigate to feedback screen
       await CreateCustomer(customer).then(status => {
-        props.navigation.navigate('AfterSubmit', { wasSuccessful: status })
+        props.navigation.navigate('AfterSubmit', {
+          wasSuccessful: status,
+          partySize: partySize
+        })
       })
     } else {
       console.log('input is not valid')
@@ -55,7 +58,7 @@ function CustomerInputScreen (props) {
           <TextInput
             style={[
               styles.nameInputContainer,
-              { width: 350 * scaleMultiplier }
+              { width: Dimensions.get('window').width >= 500 ? 500 : 350 }
             ]}
             autoFocus={true}
             onChangeText={text => setName(text)}
@@ -68,7 +71,10 @@ function CustomerInputScreen (props) {
         <View style={styles.formContainer}>
           <Text style={styles.labelText}>Party Size</Text>
           <TextInput
-            style={[styles.nameInputContainer, { width: 60 * scaleMultiplier }]}
+            style={[
+              styles.nameInputContainer,
+              { width: Dimensions.get('window').width >= 500 ? 80 : 60 }
+            ]}
             onChangeText={text => setPartySize(parseInt(text))}
             keyboardType='number-pad'
             value={partySize ? partySize.toString() : ''}
@@ -80,7 +86,7 @@ function CustomerInputScreen (props) {
           <TextInput
             style={[
               styles.nameInputContainer,
-              { width: 200 * scaleMultiplier }
+              { width: Dimensions.get('window').width >= 500 ? 300 : 200 }
             ]}
             onChangeText={text => setPhoneNumber(text)}
             keyboardType='number-pad'
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
   },
   addToWaitlistText: {
     fontFamily: 'bold',
-    fontSize: 28 * scaleMultiplier,
+    fontSize: 28,
     textAlign: 'center',
     marginTop: 30
   },
@@ -116,25 +122,26 @@ const styles = StyleSheet.create({
     padding: 20
   },
   formContainer: {
-    marginBottom: 40
+    marginBottom: Dimensions.get('window').width >= 500 ? 30 : 10
   },
   labelText: {
     fontFamily: 'regular',
-    fontSize: 18 * scaleMultiplier,
+    fontSize: Dimensions.get('window').width >= 500 ? 32 : 18,
     textAlign: 'left',
-    marginBottom: 5
+    marginBottom: 5,
+    color: colors.onBackground
   },
   nameInputContainer: {
     width: '100%',
     borderRadius: 10,
-    borderColor: '#062A28',
-    borderWidth: 2,
-    padding: 15,
-    fontSize: 20 * scaleMultiplier
+    borderColor: colors.onBackground + '80',
+    borderWidth: 1.5,
+    padding: 13,
+    fontSize: Dimensions.get('window').width >= 500 ? 32 : 20
   },
   submitButton: {
-    width: 300 * scaleMultiplier,
-    height: 65 * scaleMultiplier,
+    width: Dimensions.get('window').width >= 500 ? 450 : 300,
+    height: Dimensions.get('window').width >= 500 ? 100 : 65,
     backgroundColor: colors.primary,
     alignContent: 'center',
     justifyContent: 'center',
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     textAlign: 'center',
     color: colors.onPrimary,
-    fontSize: 25 * scaleMultiplier
+    fontSize: Dimensions.get('window').width >= 500 ? 32 : 24
   }
 })
 

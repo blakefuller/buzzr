@@ -7,7 +7,7 @@ import {
   Image,
   Picker
 } from 'react-native'
-import { colors, scaleMultiplier } from '../constants'
+import { colors } from '../constants'
 
 function SetupScreen (props) {
   //// STATE
@@ -58,45 +58,46 @@ function SetupScreen (props) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.primary
   },
   headerContainer: {
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginVertical: 50
   },
   welcomeText: {
     fontFamily: 'bold',
     textAlign: 'center',
     color: colors.onPrimary,
-    fontSize: 40 * scaleMultiplier
+    fontSize: 40
   },
   logo: {
-    width: 400 * scaleMultiplier,
-    height: 200,
+    height: 120,
     resizeMode: 'contain'
   },
   viewSelectContainer: {
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 50
   },
   viewSelectText: {
     fontFamily: 'bold',
     textAlign: 'center',
     color: colors.onPrimary,
-    fontSize: 25 * scaleMultiplier
+    fontSize: 25
   },
   picker: {
-    height: 50 * scaleMultiplier,
-    width: 300 * scaleMultiplier,
+    height: 50,
+    width: 300,
     backgroundColor: colors.background,
     justifyContent: 'center',
     borderRadius: 10,
-    marginTop: 35 * scaleMultiplier
+    marginTop: 35
   },
   startButton: {
-    width: 300 * scaleMultiplier,
-    height: 65 * scaleMultiplier,
+    width: 300,
+    height: 65,
     backgroundColor: colors.secondary,
     alignContent: 'center',
     justifyContent: 'center',
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     textAlign: 'center',
     color: colors.onSecondary,
-    fontSize: 25 * scaleMultiplier
+    fontSize: 25
   }
 })
 
