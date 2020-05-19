@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native'
-import { scaleMultiplier, colors } from '../constants'
+import { colors } from '../constants'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 function HeaderButtons (props) {
@@ -11,7 +11,7 @@ function HeaderButtons (props) {
       <TouchableOpacity onPress={props.button1OnPress}>
         <MaterialCommunityIcons
           name={props.button1Name}
-          size={28 * scaleMultiplier}
+          size={32}
           color={colors.onPrimary}
         />
       </TouchableOpacity>
@@ -21,7 +21,7 @@ function HeaderButtons (props) {
       >
         <MaterialCommunityIcons
           name={props.button2Name}
-          size={28 * scaleMultiplier}
+          size={32}
           color={colors.onPrimary}
         />
       </TouchableOpacity>

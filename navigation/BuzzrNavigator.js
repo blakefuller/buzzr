@@ -6,7 +6,7 @@ import AfterSubmitScreen from '../screens/AfterSubmitScreen'
 import EditCustomerScreen from '../screens/EditCustomerScreen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { colors, scaleMultiplier } from '../constants'
+import { colors } from '../constants'
 
 const Stack = createStackNavigator()
 
@@ -22,12 +22,10 @@ function BuzzrNavigator () {
             headerShown: true,
             headerTitle: 'Add to Waitlist',
             headerStyle: {
-              backgroundColor: colors.primary,
-              height: 45 * scaleMultiplier
+              backgroundColor: colors.primary
             },
             headerTitleStyle: {
-              fontFamily: 'bold',
-              fontSize: 16 * scaleMultiplier
+              fontFamily: 'bold'
             }
           }}
         />
@@ -37,16 +35,24 @@ function BuzzrNavigator () {
           options={{
             headerShown: true,
             headerStyle: {
-              backgroundColor: colors.primary,
-              height: 45 * scaleMultiplier
+              backgroundColor: colors.primary
             },
             headerTitleStyle: {
-              fontFamily: 'bold',
-              fontSize: 16 * scaleMultiplier
+              fontFamily: 'bold'
             }
           }}
         />
-        <Stack.Screen name='AfterSubmit' component={AfterSubmitScreen} />
+        <Stack.Screen
+          name='AfterSubmit'
+          component={AfterSubmitScreen}
+          options={{
+            headerShown: true,
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: colors.primary
+            }
+          }}
+        />
         <Stack.Screen
           name='EditCustomer'
           component={EditCustomerScreen}
@@ -54,12 +60,10 @@ function BuzzrNavigator () {
             headerShown: true,
             headerTitle: 'Edit Customer',
             headerStyle: {
-              backgroundColor: colors.primary,
-              height: 45 * scaleMultiplier
+              backgroundColor: colors.primary
             },
             headerTitleStyle: {
-              fontFamily: 'bold',
-              fontSize: 16 * scaleMultiplier
+              fontFamily: 'bold'
             }
           }}
         />

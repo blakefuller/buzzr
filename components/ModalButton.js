@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, StyleSheet, Text } from 'react-native'
-import { scaleMultiplier } from '../constants'
+import { colors } from '../constants'
 
 function ModalButton (props) {
   //// RETURN
@@ -9,7 +9,7 @@ function ModalButton (props) {
     <TouchableOpacity
       style={[
         styles.modalButtonStyle,
-        { borderBottomWidth: props.isLast ? 0 : 1 }
+        { backgroundColor: props.isActive ? colors.primary : null }
       ]}
       onPress={props.onPress}
     >
@@ -25,13 +25,13 @@ function ModalButton (props) {
 const styles = StyleSheet.create({
   modalButtonStyle: {
     width: '100%',
-    height: 50 * scaleMultiplier,
-    justifyContent: 'center',
-    borderBottomColor: '#dedede'
+    height: 70,
+    justifyContent: 'center'
   },
   text: {
     textAlign: 'center',
-    fontSize: 16 * scaleMultiplier
+    fontSize: 20,
+    color: colors.onBackground
   }
 })
 
