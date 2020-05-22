@@ -1,5 +1,6 @@
 import json
 import boto3
+import datetime
 from botocore.exceptions import ClientError
 
 def lambda_handler(event, context):
@@ -16,7 +17,7 @@ def lambda_handler(event, context):
         
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello from Lambda!')
+        'body': json.dumps('It Works!')
     }
     
 def send_notify(record):
@@ -28,6 +29,7 @@ def send_notify(record):
     message = ("Your table is ready! Please see the host for seating")
     applicationId = "eeed9511a8214dbba5c0f0d5762d3fc6"
     messageType = "TRANSACTIONAL"
+    
 
     client = boto3.client('pinpoint',region_name=region)
     try:
@@ -48,9 +50,32 @@ def send_notify(record):
                 }
             }
         )
-
     except ClientError as e:
         print(e.response['Error']['Message'])
     else:
+        name = record['dynamodb']['NewImage']['name']['S']
+        customerID = record['dynamodb']['NewImage']['customerID']['S']
+        currentTime = datetime.datetime.now()
+        client = boto3.client('dynamodb')
+        waitTimeList = client.update_item(
+           TableName = 'testaurant',
+           Key = {'customerID': {'S': 'logs'}},
+           UpdateExpression = "SET #l = list_append(#l, :vals)",
+           ExpressionAttributeNames = {"#l": "logs"},
+           ExpressionAttributeValues = {
+              ":vals": {
+                 "L": [
+                     {
+                        "M": {
+                          str(currentTime): {
+                            "S": f"{name} ({customerID}) was notified"
+                          }
+                        }
+                      }
+                 ]
+              }
+           }
+        )
+        
         print("Message sent! Message ID: "
                 + response['MessageResponse']['Result'][destinationNumber]['MessageId'])

@@ -1,6 +1,9 @@
 import json
 import boto3
+import datetime
 from botocore.exceptions import ClientError
+
+table_name = "testaurant"
 
 def lambda_handler(event, context):
     # TODO implement
@@ -39,7 +42,7 @@ def handle_insert(record):
     
     #call the table
     waitTimeList = client.get_item(
-        TableName = 'testaurant',
+        TableName = table_name,
         Key = {'customerID': {'S': 'wait_times'}}
     )
     print(waitTimeList)
@@ -47,7 +50,7 @@ def handle_insert(record):
     #grab the waitime based on the partysize
     waitTime = waitTimeList['Item'][waitlistPartySize]['N']
 
-    message = (f"You have been added to the waitlist, your current wait time is {waitTime} minutes. Text REMOVE to be removed from the waitlist.")
+    message = (f"Welcome to {table_name}. You have been added to the waitlist, your current wait time is {waitTime} minutes. Text CANCEL to be removed from the waitlist.")
     applicationId = "eeed9511a8214dbba5c0f0d5762d3fc6"
     messageType = "TRANSACTIONAL"
 
@@ -74,6 +77,28 @@ def handle_insert(record):
     except ClientError as e:
         print(e.response['Error']['Message'])
     else:
+        name = record['dynamodb']['NewImage']['name']['S']
+        customerID = record['dynamodb']['NewImage']['customerID']['S']
+        currentTime = datetime.datetime.now()
+        client = boto3.client('dynamodb')
+        waitTimeList = client.update_item(
+           TableName = 'testaurant',
+           Key = {'customerID': {'S': 'logs'}},
+           UpdateExpression = "SET #l = list_append(#l, :vals)",
+           ExpressionAttributeNames = {"#l": "logs"},
+           ExpressionAttributeValues = {
+              ":vals": {
+                 "L": [
+                     {
+                        "M": {
+                          str(currentTime): {
+                            "S": f"{name} ({customerID}) was added"
+                          }
+                        }
+                      }
+                 ]
+              }
+           }
+        )
         print("Message sent! Message ID: "
                 + response['MessageResponse']['Result'][destinationNumber]['MessageId'])
-    
