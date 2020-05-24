@@ -5,7 +5,8 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Picker
+  Picker,
+  Dimensions
 } from 'react-native'
 import { colors } from '../constants'
 
@@ -73,8 +74,9 @@ const styles = StyleSheet.create({
     fontSize: 40
   },
   logo: {
-    height: 120,
-    resizeMode: 'contain'
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width / 3,
+    resizeMode: 'center'
   },
   viewSelectContainer: {
     justifyContent: 'flex-start',

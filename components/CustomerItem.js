@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import EditCustomer from '../database/EditCustomer'
@@ -16,7 +16,6 @@ function CustomerItem (props) {
   //// FUNCTIONS
 
   async function notifyCustomer () {
-    // BLAKE: add notifiedtime variable to db
     var customer = {
       customerID: props.id,
       notified_time: Date.now()
@@ -44,7 +43,12 @@ function CustomerItem (props) {
   ) : (
     <TouchableOpacity
       onPress={
-        notifyPressed ? () => notifyCustomer() : () => setNotifyPressed(true)
+        notifyPressed
+          ? () => notifyCustomer()
+          : () => {
+              setNotifyPressed(true)
+              setTimeout(() => setNotifyPressed(false), 3000)
+            }
       }
     >
       <Text
@@ -63,37 +67,44 @@ function CustomerItem (props) {
   )
 
   return (
-    <TouchableOpacity
-      style={styles.customerItemContainer}
-      onPress={() => showCustomerModal()}
-    >
-      <View
-        style={[
-          styles.customerFieldContainer,
-          { flex: 1, justifyContent: 'center' }
-        ]}
-      >
-        <Text style={[styles.customerFieldText, { fontFamily: 'italic' }]}>
-          {props.partySize}
-        </Text>
+    <View style={styles.customerItemContainer}>
+      <View style={{ flex: 3 }}>
+        <TouchableOpacity
+          style={{
+            height: '100%',
+            flexDirection: 'row'
+          }}
+          onPress={() => showCustomerModal()}
+        >
+          <View
+            style={[
+              styles.customerFieldContainer,
+              { flex: 1, justifyContent: 'center' }
+            ]}
+          >
+            <Text style={[styles.customerFieldText, { fontFamily: 'italic' }]}>
+              {props.partySize}
+            </Text>
+          </View>
+          <View
+            style={[
+              styles.customerFieldContainer,
+              { flex: 3, justifyContent: 'flex-start' }
+            ]}
+          >
+            <Text style={styles.customerFieldText}>{props.name}</Text>
+          </View>
+          <View style={[styles.customerFieldContainer, { flex: 2 }]}>
+            <Text style={[styles.customerFieldText, { fontSize: 16 }]}>
+              {props.checkinTime}min
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
-      <View
-        style={[
-          styles.customerFieldContainer,
-          { flex: 3, justifyContent: 'flex-start' }
-        ]}
-      >
-        <Text style={styles.customerFieldText}>{props.name}</Text>
-      </View>
-      <View style={[styles.customerFieldContainer, { flex: 2 }]}>
-        <Text style={[styles.customerFieldText, { fontSize: 16 }]}>
-          {props.checkinTime}min
-        </Text>
-      </View>
-      <View style={[styles.customerFieldContainer, { flex: 2 }]}>
+      <View style={[styles.customerFieldContainer, { flex: 1 }]}>
         {notifiedComponent}
       </View>
-    </TouchableOpacity>
+    </View>
   )
 }
 
@@ -102,10 +113,8 @@ function CustomerItem (props) {
 const styles = StyleSheet.create({
   customerItemContainer: {
     height: 50,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    width: Dimensions.get('window').width,
+    flexDirection: 'row'
   },
   customerFieldContainer: {
     height: '100%',

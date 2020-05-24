@@ -58,7 +58,7 @@ function CustomerInputScreen (props) {
           <TextInput
             style={[
               styles.nameInputContainer,
-              { width: Dimensions.get('window').width >= 500 ? 500 : 350 }
+              { width: Dimensions.get('window').width - 40 }
             ]}
             autoFocus={true}
             onChangeText={text => setName(text)}

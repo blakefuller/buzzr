@@ -5,7 +5,8 @@ import {
   Text,
   FlatList,
   RefreshControl,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView
 } from 'react-native'
 import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -37,7 +38,6 @@ function WaitlistScreen (props) {
   const [showWaitTimeModal, setShowWaitTimeModal] = useState(false)
   const [showOptionsModal, setShowOptionsModal] = useState(false)
   const [showSortModal, setShowSortModal] = useState(false)
-  const [showAddModal, setShowAddModal] = useState(false)
 
   //// CONSTRUCTOR
 
@@ -159,7 +159,7 @@ function WaitlistScreen (props) {
           button1Name='timer'
           button1OnPress={() => setShowWaitTimeModal(true)}
           button2Name='plus'
-          button2OnPress={() => setShowAddModal(true)}
+          button2OnPress={() => props.navigation.navigate('CustomerInput')}
         />
       ),
       headerLeft: () => (
@@ -422,57 +422,6 @@ function WaitlistScreen (props) {
           }}
           isActive={currentSort === 'alphabetical-reverse'}
         />
-      </BuzzrModal>
-      <BuzzrModal
-        isVisible={showAddModal}
-        hideModal={() => setShowAddModal(false)}
-        closeText='Cancel'
-      >
-        <View style={{ padding: 10 }}>
-          <View>
-            <Text style={styles.labelText}>Name</Text>
-            <TextInput
-              style={styles.nameInputContainer}
-              autoFocus={true}
-              onChangeText={text => setName(text)}
-              autoCapitalize='words'
-              autoCorrect={false}
-              value={name}
-            />
-          </View>
-          <View>
-            <Text style={styles.labelText}>Party Size</Text>
-            <TextInput
-              style={styles.nameInputContainer}
-              onChangeText={text => setPartySize(parseInt(text))}
-              keyboardType='number-pad'
-              value={partySize ? partySize.toString() : ''}
-            />
-          </View>
-          <View>
-            <Text style={styles.labelText}>Phone Number</Text>
-            <TextInput
-              style={styles.nameInputContainer}
-              onChangeText={text => setPhoneNumber(text)}
-              keyboardType='number-pad'
-              value={phoneNumber}
-            />
-          </View>
-        </View>
-        <View
-          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
-        />
-        <ModalButton
-          title='Add Customer'
-          onPress={() => {
-            submit()
-            setShowSortModal(false)
-          }}
-        />
-        <View
-          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
-        />
-        <View style={{ height: '30%' }} />
       </BuzzrModal>
     </View>
   )

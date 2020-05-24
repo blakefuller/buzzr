@@ -13,7 +13,9 @@ const Stack = createStackNavigator()
 function BuzzrNavigator () {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}
+      >
         <Stack.Screen name='Setup' component={SetupScreen} />
         <Stack.Screen
           name='CustomerInput'
