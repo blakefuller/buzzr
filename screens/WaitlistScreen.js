@@ -52,6 +52,8 @@ function WaitlistScreen (props) {
 
   //// FUNCTIONS
 
+  // BLAKE: set up listener for 'host notify' variable here
+
   async function submit () {
     // some brief input validation
     if (name && partySize && typeof partySize == 'number' && phoneNumber) {
