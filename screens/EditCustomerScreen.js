@@ -7,20 +7,22 @@ import EditCustomer from '../database/EditCustomer'
 function CustomerInputScreen (props) {
   //// STATE
 
+  // text input forms state
   const [name, setName] = useState(props.route.params.customer.name)
   const [partySize, setPartySize] = useState(
     props.route.params.customer.party_size.toString()
   )
+
+  // refs for text input forms - used for clearing text
   const [nameInputRef, setNameInputRef] = useState()
   const [partySizeInputRef, setPartySizeInputRef] = useState()
+
+  // keeps track of whether our db operation was successful
   const [saveSuccessful, setSaveSuccessful] = useState()
-
-  //// CONSTRUCTOR
-
-  useEffect(() => {}, [])
 
   //// FUNCTIONS
 
+  // updates the customer of a given id with the form inputs
   async function updateCustomer () {
     var customer = {
       customerID: props.route.params.customer.customerID,
@@ -28,7 +30,8 @@ function CustomerInputScreen (props) {
       party_size: partySize
     }
 
-    // call function to create new customer and store status, then navigate to feedback screen
+    // call function to create new customer and store status, then update was successful
+    // variable to display feedback on screen
     await EditCustomer(customer).then(status => {
       setSaveSuccessful(status ? 'yes' : 'no')
     })

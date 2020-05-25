@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Modal from 'react-native-modal'
 import {} from '../constants'
 
+// component for a modal
 function BuzzrModal (props) {
   //// RENDER
   return (
@@ -36,6 +37,8 @@ function BuzzrModal (props) {
     </Modal>
   )
 }
+
+//// STYLES
 
 const styles = StyleSheet.create({
   buttonsContainer: {
