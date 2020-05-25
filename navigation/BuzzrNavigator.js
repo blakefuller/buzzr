@@ -4,6 +4,7 @@ import CustomerInputScreen from '../screens/CustomerInputScreen'
 import WaitlistScreen from '../screens/WaitlistScreen'
 import AfterSubmitScreen from '../screens/AfterSubmitScreen'
 import EditCustomerScreen from '../screens/EditCustomerScreen'
+import LogScreen from '../screens/LogScreen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { colors } from '../constants'
@@ -61,6 +62,20 @@ function BuzzrNavigator () {
           options={{
             headerShown: true,
             headerTitle: 'Edit Customer',
+            headerStyle: {
+              backgroundColor: colors.primary
+            },
+            headerTitleStyle: {
+              fontFamily: 'bold'
+            }
+          }}
+        />
+        <Stack.Screen
+          name='Log'
+          component={LogScreen}
+          options={{
+            headerShown: true,
+            headerTitle: 'Log',
             headerStyle: {
               backgroundColor: colors.primary
             },

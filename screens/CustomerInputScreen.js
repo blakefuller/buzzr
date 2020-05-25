@@ -113,6 +113,7 @@ function CustomerInputScreen (props) {
   // notifies all connected devices that someone needs help
   function notifyHost () {
     //BLAKE todo: change 'notify host' variable here
+
     Alert.alert(
       'A restaurant worker has been notified',
       'Please wait: help will arrive shortly',

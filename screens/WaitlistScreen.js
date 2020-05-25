@@ -78,7 +78,7 @@ function WaitlistScreen (props) {
       headerLeft: () => (
         <HeaderButtons
           button1Name='file-document-outline'
-          button1OnPress={() => {}}
+          button1OnPress={() => props.navigation.navigate('Log')}
           button2Name='sort'
           button2OnPress={() => setShowSortModal(true)}
         />
@@ -167,7 +167,7 @@ function WaitlistScreen (props) {
 
   // call the external DeleteCustomer function and then refresh
   function deleteCustomer () {
-    // BLAKE: delete customer using modalCustomer object
+    //  delete customer using modalCustomer object
     DeleteCustomer(modalCustomer.customerID)
     setShowOptionsModal(false)
     getWaitlist()
