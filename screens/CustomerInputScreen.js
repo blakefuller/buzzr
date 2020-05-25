@@ -15,9 +15,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 function CustomerInputScreen (props) {
   //// STATE
 
+  // text input forms state
   const [name, setName] = useState('')
   const [partySize, setPartySize] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
+
+  // refs for text input forms - used for clearing text
   const [nameInputRef, setNameInputRef] = useState()
   const [partySizeInputRef, setPartySizeInputRef] = useState()
   const [phoneNumberInputRef, setPhoneNumberInputRef] = useState()
@@ -30,6 +33,7 @@ function CustomerInputScreen (props) {
 
   //// FUNCTIONS
 
+  // sets the nav options for this screen
   function setNavOptions () {
     return {
       headerRight: () => (
@@ -51,11 +55,13 @@ function CustomerInputScreen (props) {
     }
   }
 
+  // validates the user's inputs and return either 'good' or an error message
   function validateInputs () {
     // check that phone number is valid
     var phoneNumberRE = /[0-9]{3}[-]{0,1}[0-9]{3}[-]{0,1}[0-9]{4}/
     var phoneNumberValid = phoneNumberRE.exec(phoneNumber)
 
+    // check that the party size is valid
     var partySizeRE = /^[1-9]+/
     var partySizeValid = partySizeRE.exec(partySize)
 
@@ -71,9 +77,11 @@ function CustomerInputScreen (props) {
     else return 'good'
   }
 
+  // adds a customer to the db when the user presses the submit button
   async function submit () {
+    // make sure our inputs are valid
     var inputsValid = validateInputs()
-    // some brief input validation
+
     if (inputsValid === 'good') {
       // set up object to put into database
       var customer = {
@@ -84,6 +92,7 @@ function CustomerInputScreen (props) {
         checkin_time: Date.now()
       }
 
+      // clear out text inputs
       nameInputRef.clear()
       partySizeInputRef.clear()
       phoneNumberInputRef.clear()
@@ -96,10 +105,12 @@ function CustomerInputScreen (props) {
         })
       })
     } else {
+      // if inputs are not valid, display the appropriate error message
       Alert.alert('Error', inputsValid, [{ text: 'OK', onPress: () => {} }])
     }
   }
 
+  // notifies all connected devices that someone needs help
   function notifyHost () {
     //BLAKE todo: change 'notify host' variable here
     Alert.alert(

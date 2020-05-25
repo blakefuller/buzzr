@@ -4,36 +4,46 @@ import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import EditCustomer from '../database/EditCustomer'
 
+// component for a customer 'entry' on the waitlist screen
 function CustomerItem (props) {
   //// STATE
 
+  // keeps track of if the user has tapped the notify button once to switch it
+  // to 'tap to confirm'
   const [notifyPressed, setNotifyPressed] = useState(false)
-
-  //// CONSTRUCTOR
-
-  useEffect(() => {}, [])
 
   //// FUNCTIONS
 
+  // sends the customer info over to the EditCustomer function that updates the
+  // 'notify' variable in AWS which sends the customer a text message whenever
+  // the user taps twice on 'notify'
   async function notifyCustomer () {
     var customer = {
       customerID: props.id,
       notified_time: Date.now()
     }
 
-    // call function to create new customer and store status, then navigate to feedback screen
+    // send over our customer info and refresh once we've finished
     await EditCustomer(customer).then(status => {
       props.refresh()
     })
   }
 
+  // function to show the customer edit modal
   function showCustomerModal () {
+    // allows us to use this customer's info in waitlist screen
     props.setModalCustomer()
+
     props.showOptionsModal()
   }
 
   //// RENDER
 
+  // render the notify component conditionally because it can be in 3 states:
+  // 1. the customer hasn't been notified, so 'NOTIFY' should be shown
+  // 2. the customer hasn't been notified but 'NOTIFY' has been tapped,
+  //    so 'tap to confirm' should be shown
+  // 3. the customer has been notified, so show the minutes since that happened
   var notifiedComponent = props.notifiedTime ? (
     <View>
       <Text style={[styles.customerFieldText, { fontSize: 16 }]}>

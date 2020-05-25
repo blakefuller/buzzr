@@ -2,6 +2,7 @@ import React from 'react'
 import { TouchableOpacity, StyleSheet, Text } from 'react-native'
 import { colors } from '../constants'
 
+// component for a button inside a modal
 function ModalButton (props) {
   //// RETURN
 

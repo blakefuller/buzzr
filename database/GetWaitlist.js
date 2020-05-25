@@ -3,6 +3,7 @@ const config = require('../AWS.config.json')
 
 let docClient = new AWS.DynamoDB.DocumentClient()
 
+// retrieve the whole waitlist of customers
 async function GetWaitlist () {
   var params = {
     TableName: config.restaurant,

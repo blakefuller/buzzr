@@ -10,14 +10,18 @@ import {
 import { colors } from '../constants'
 import { Ionicons } from '@expo/vector-icons'
 import GetCustomer from '../database/GetCustomer'
+
 function SetupScreen (props) {
   //// STATE
 
+  // keeps track of the wait time to display on the screen
   const [waitTime, setWaitTime] = useState(15)
 
   //// CONSTRUCTOR
 
   useEffect(() => {
+    // if the db operation was successful, get the wait time for the specified
+    // party size, do some rounding, and set out wait item state
     if (props.route.params.wasSuccessful)
       GetCustomer('wait_times').then(waitTimes => {
         var roundedPartySize = props.route.params.partySize
@@ -29,10 +33,10 @@ function SetupScreen (props) {
       })
   }, [])
 
-  //// FUNCTIONS
-
   //// RENDER
 
+  // render wait time conditionally as we only show it if the db operation
+  // was successful
   var waitTimeComponent = props.route.params.wasSuccessful ? (
     <View style={styles.waitTimeContianer}>
       <Text style={styles.waitTimeText}>

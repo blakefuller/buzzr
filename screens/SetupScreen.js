@@ -13,13 +13,8 @@ import { colors } from '../constants'
 function SetupScreen (props) {
   //// STATE
 
+  // keeps track of the current state of the view picker
   const [view, setView] = useState('CustomerInput')
-
-  //// CONSTRUCTOR
-
-  useEffect(() => {}, [])
-
-  //// FUNCTIONS
 
   //// RENDER
 
