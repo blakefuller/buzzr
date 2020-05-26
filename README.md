@@ -30,7 +30,7 @@ Login to the Buzzr expo account to view and test our app:
 
 ```
 Username: buzzr
-Password: buzzrisc00l
+Password: ask Buzzr team for password
 ```
 <img width="270" height="480" src="https://lh3.googleusercontent.com/Drqxi5vd6G6hLxX4zRMZeZwpf-P42DDd9hC4HwGNnUPhmo7xcG1tqHsf7EieoTAWysByUwakeywFUrcVDJEbFMLyAUUsyEtIZl4_JSSqSPokERdtDvCP0J2f_nW077xt6yNTN-jpmaDSNR3-2m4lqm5uvrYkrl4nUfhmIGR36rYQNAaHGxAmEG7JWxD5LEmXMr3zXnEvNY2EBysA-GXYFQG4_FmA6PbjkHCHCM48pbStgPvOhRzcbx7oLqqELY-j0RaqCSBN76esQHJQErqOZj3s7OXiRZlCYnwJ3c9RfquTMmW8mR_kYc_zcNO5yetTmWXOoQvramhPY5GC8pSzHUdXNWiY4fIqX5rUh4JI-ppfc1-RXy4pUYCeQTtFuRzCL-kJ3mH8CpWk1jqcR-0bBeuSSmvi8tiMmd2bNXrSALexLSR1lh0ZEHfexl7Wt-lFl5QBMpZFUG-GTRRfJ4okEVlyVWw_PlNAIeGek9xmDGsUSLo5KwifAyWBbMQr0wT4lpKuk5F5oBDkNx3uxsPMestU6acu4fp_O3AMtIxpJMUlDfEsbtEhdexhCjzKcs3NkCHBvIBhhKV_lrI6V3VqDhuDna6YkL1yetrR1UDC1hSV-5Y8zkc1UwTtmHB0vJQCmDVpSqwRwGv5MLD9HHVv-rEG_rgFzN9vFXalRI2Q3M3eW--9K0YoPXMPSkxa=w417-h741-no?authuser=0">
 
