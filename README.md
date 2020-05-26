@@ -77,10 +77,10 @@ From the waitlist screen, the host can select the sort button in the top left to
 
 ## Authors
 
-* **Blake Fuller** - *Database creation, interactions with front end* 
-* **Cameron Moe** - *Text messaging through AWS Lambda* 
-* **Nate Salima** - *AWS Lambda functions for database, text messaging* 
-* **Trent Cowden** - *React Native development, front end/UI* 
+* **Blake Fuller** - *Backend Engineer, Solutions Architect* 
+* **Cameron Moe** - *Cloud Engineer, Program Manager* 
+* **Nate Salima** - *Data Architect* 
+* **Trent Cowden** - *Frontend Engineer, UI/UX Desginer* 
 
 
 ## Acknowledgments
