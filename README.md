@@ -85,5 +85,5 @@ From the waitlist screen, the host can select the sort button in the top left to
 ## Acknowledgments
 
 * Dr. Arias for weekly meetings and advice
-* J.J. for Buzzr branding and logo creation
+* Josh Gunn for Buzzr branding and logo creation
 
