@@ -1,4 +1,5 @@
-# Buzzr
+<img src="https://i.gyazo.com/c5236947602e1ffb8b3acd149237fef2.png">
+
 An app that streamlines and enhances the restaurant table waitlist system
 
 ## Getting Started
