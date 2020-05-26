@@ -3,6 +3,7 @@ import { TouchableOpacity, StyleSheet, Text, View } from 'react-native'
 import { colors } from '../constants'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
+// component to display the wait times and buttons to edit them from the modal
 function WaitTimeItem (props) {
   //// RETURN
 

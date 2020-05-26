@@ -1,28 +1,88 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, TextInput, Dimensions } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Dimensions,
+  Alert
+} from 'react-native'
 import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import CreateCustomer from '../database/CreateCustomer'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 function CustomerInputScreen (props) {
   //// STATE
 
+  // text input forms state
   const [name, setName] = useState('')
   const [partySize, setPartySize] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
+
+  // refs for text input forms - used for clearing text
   const [nameInputRef, setNameInputRef] = useState()
   const [partySizeInputRef, setPartySizeInputRef] = useState()
   const [phoneNumberInputRef, setPhoneNumberInputRef] = useState()
 
   //// CONSTRUCTOR
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    props.navigation.setOptions(setNavOptions())
+  }, [])
 
   //// FUNCTIONS
 
+  // sets the nav options for this screen
+  function setNavOptions () {
+    return {
+      headerRight: () => (
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            marginHorizontal: 15
+          }}
+          onPress={notifyHost}
+        >
+          <MaterialCommunityIcons
+            name='bell-ring'
+            size={32}
+            color={colors.onPrimary}
+          />
+        </TouchableOpacity>
+      )
+    }
+  }
+
+  // validates the user's inputs and return either 'good' or an error message
+  function validateInputs () {
+    // check that phone number is valid
+    var phoneNumberRE = /[0-9]{3}[-]{0,1}[0-9]{3}[-]{0,1}[0-9]{4}/
+    var phoneNumberValid = phoneNumberRE.exec(phoneNumber)
+
+    // check that the party size is valid
+    var partySizeRE = /^[1-9]+/
+    var partySizeValid = partySizeRE.exec(partySize)
+
+    // check that no fields are blank
+    if (!name) return 'Name cannot be blank'
+    else if (!partySize) return 'Party size cannot be empty'
+    else if (!phoneNumber) return 'Phone number cannot be empty'
+    // check that types are correct
+    else if (typeof partySize !== 'number' || !partySizeValid)
+      return 'Please enter a valid number for party size'
+    else if (!phoneNumberValid)
+      return 'Please enter a valid 10 digit phone number in the format ##########'
+    else return 'good'
+  }
+
+  // adds a customer to the db when the user presses the submit button
   async function submit () {
-    // some brief input validation
-    if (name && partySize && typeof partySize == 'number' && phoneNumber) {
+    // make sure our inputs are valid
+    var inputsValid = validateInputs()
+
+    if (inputsValid === 'good') {
       // set up object to put into database
       var customer = {
         customerID: Math.floor(Math.random() * 1000000000).toString(),
@@ -32,6 +92,7 @@ function CustomerInputScreen (props) {
         checkin_time: Date.now()
       }
 
+      // clear out text inputs
       nameInputRef.clear()
       partySizeInputRef.clear()
       phoneNumberInputRef.clear()
@@ -44,8 +105,20 @@ function CustomerInputScreen (props) {
         })
       })
     } else {
-      console.log('input is not valid')
+      // if inputs are not valid, display the appropriate error message
+      Alert.alert('Error', inputsValid, [{ text: 'OK', onPress: () => {} }])
     }
+  }
+
+  // notifies all connected devices that someone needs help
+  function notifyHost () {
+    //BLAKE todo: change 'notify host' variable here
+
+    Alert.alert(
+      'A restaurant worker has been notified',
+      'Please wait: help will arrive shortly',
+      [{ text: 'OK', onPress: () => {} }]
+    )
   }
 
   //// RENDER
@@ -58,7 +131,7 @@ function CustomerInputScreen (props) {
           <TextInput
             style={[
               styles.nameInputContainer,
-              { width: Dimensions.get('window').width >= 500 ? 500 : 350 }
+              { width: Dimensions.get('window').width - 40 }
             ]}
             autoFocus={true}
             onChangeText={text => setName(text)}

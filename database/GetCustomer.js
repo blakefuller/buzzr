@@ -3,6 +3,7 @@ const config = require('../AWS.config.json')
 
 let docClient = new AWS.DynamoDB.DocumentClient()
 
+// retrieve a specific customer by id
 async function GetCustomer (id) {
   var params = {
     TableName: config.restaurant,
