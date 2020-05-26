@@ -5,20 +5,16 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Picker
+  Picker,
+  Dimensions
 } from 'react-native'
 import { colors } from '../constants'
 
 function SetupScreen (props) {
   //// STATE
 
+  // keeps track of the current state of the view picker
   const [view, setView] = useState('CustomerInput')
-
-  //// CONSTRUCTOR
-
-  useEffect(() => {}, [])
-
-  //// FUNCTIONS
 
   //// RENDER
 
@@ -73,8 +69,9 @@ const styles = StyleSheet.create({
     fontSize: 40
   },
   logo: {
-    height: 120,
-    resizeMode: 'contain'
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width / 3,
+    resizeMode: 'center'
   },
   viewSelectContainer: {
     justifyContent: 'flex-start',

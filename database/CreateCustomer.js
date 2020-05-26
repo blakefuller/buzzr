@@ -3,6 +3,7 @@ const config = require('../AWS.config.json')
 
 let docClient = new AWS.DynamoDB.DocumentClient()
 
+// adds a new customer to the db
 async function CreateCustomer (customer) {
   var params = {
     TableName: config.restaurant,

@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import { colors } from '../constants'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
+// component for the various header buttons on the waitlist screen
 function HeaderButtons (props) {
   //// RENDER
 

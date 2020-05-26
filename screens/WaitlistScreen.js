@@ -5,7 +5,8 @@ import {
   Text,
   FlatList,
   RefreshControl,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView
 } from 'react-native'
 import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -20,16 +21,23 @@ import BuzzrModal from '../components/BuzzrModal'
 import ModalButton from '../components/ModalButton'
 import NetInfo from '@react-native-community/netinfo'
 import CreateCustomer from '../database/CreateCustomer'
+
 function WaitlistScreen (props) {
   //// STATE
 
+  // holds the waitlist (an array of objects)
   const [waitlist, setWaitlist] = useState([])
+
+  // holds the wait times (an object)
   const [waitTimes, setWaitTimes] = useState({})
+
+  // keeps track of it we're refreshing for the flatlist refresh
   const [isRefreshing, setIsRefreshing] = useState(false)
+
+  // keeps track of if we have network connection
   const [isConnected, setIsConnected] = useState(true)
-  const [name, setName] = useState('')
-  const [partySize, setPartySize] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
+
+  // keeps track of the currently selected sort option
   const [currentSort, setCurrentSort] = useState('')
 
   // modal states
@@ -37,14 +45,19 @@ function WaitlistScreen (props) {
   const [showWaitTimeModal, setShowWaitTimeModal] = useState(false)
   const [showOptionsModal, setShowOptionsModal] = useState(false)
   const [showSortModal, setShowSortModal] = useState(false)
-  const [showAddModal, setShowAddModal] = useState(false)
 
   //// CONSTRUCTOR
 
   useEffect(() => {
     props.navigation.setOptions(setNavOptions())
+
+    // get the current waitlist
     getWaitlist()
+
+    // get the current wait times
     getWaitTimes()
+
+    // listener for displaying feedback if the device loses internet connection
     const unsubscribe = NetInfo.addEventListener(state => {
       setIsConnected(state.isConnected)
     })
@@ -52,47 +65,40 @@ function WaitlistScreen (props) {
 
   //// FUNCTIONS
 
-  async function submit () {
-    // some brief input validation
-    if (name && partySize && typeof partySize == 'number' && phoneNumber) {
-      // set up object to put into database
-      var customer = {
-        customerID: Math.floor(Math.random() * 1000000000).toString(),
-        name: name,
-        phone_number: '+1' + phoneNumber,
-        party_size: partySize,
-        checkin_time: Date.now()
-      }
-
-      setName('')
-      setPartySize('')
-      setPhoneNumber('')
-
-      // call function to create new customer and store status, then navigate to feedback screen
-      await CreateCustomer(customer).then(status => {
-        setShowAddModal(false)
-        sortWaitlist(currentSort)
-      })
-    } else {
-      console.log('input is not valid')
+  function setNavOptions () {
+    return {
+      headerRight: () => (
+        <HeaderButtons
+          button1Name='timer'
+          button1OnPress={() => setShowWaitTimeModal(true)}
+          button2Name='plus'
+          button2OnPress={() => props.navigation.navigate('CustomerInput')}
+        />
+      ),
+      headerLeft: () => (
+        <HeaderButtons
+          button1Name='file-document-outline'
+          button1OnPress={() => props.navigation.navigate('Log')}
+          button2Name='sort'
+          button2OnPress={() => setShowSortModal(true)}
+        />
+      )
     }
   }
 
+  // BLAKE: set up listener for 'host notify' variable here
+
+  // gets the waitlist by calling sortWaitlist with the default parameter
   function getWaitlist () {
     setIsRefreshing(true)
     sortWaitlist('')
     setIsRefreshing(false)
   }
 
-  function getWaitTimes () {
-    GetCustomer('wait_times').then(waitTimes => {
-      setWaitTimes(waitTimes.Items[0])
-    })
-  }
-
+  // gets the waitlist using the external GetWaitlist function and then
+  // sort it based on the param
   function sortWaitlist (sort) {
     GetWaitlist().then(waitlist => {
-      // console.log(waitlist.Items)
       switch (sort) {
         case 'size':
           setWaitlist(
@@ -152,34 +158,23 @@ function WaitlistScreen (props) {
     })
   }
 
-  function setNavOptions () {
-    return {
-      headerRight: () => (
-        <HeaderButtons
-          button1Name='timer'
-          button1OnPress={() => setShowWaitTimeModal(true)}
-          button2Name='plus'
-          button2OnPress={() => setShowAddModal(true)}
-        />
-      ),
-      headerLeft: () => (
-        <HeaderButtons
-          button1Name='file-document-outline'
-          button1OnPress={() => {}}
-          button2Name='sort'
-          button2OnPress={() => setShowSortModal(true)}
-        />
-      )
-    }
+  // get the wait times from the db using the external GetCustomer function
+  function getWaitTimes () {
+    GetCustomer('wait_times').then(waitTimes => {
+      setWaitTimes(waitTimes.Items[0])
+    })
   }
 
+  // call the external DeleteCustomer function and then refresh
   function deleteCustomer () {
-    // BLAKE: delete customer using modalCustomer object
+    //  delete customer using modalCustomer object
     DeleteCustomer(modalCustomer.customerID)
     setShowOptionsModal(false)
     getWaitlist()
   }
 
+  // update the wait times in the db by calling the external EditWaitTimes function
+  // and passing in the party size to change, and what the change in minutes is
   function editWaitTimes (partySize, change) {
     var localWaitTimes = waitTimes
     localWaitTimes[partySize] = waitTimes[partySize] + change
@@ -188,6 +183,7 @@ function WaitlistScreen (props) {
 
   //// RENDER
 
+  // renders a customer item
   function renderCustomer (customerList) {
     return (
       <CustomerItem
@@ -205,6 +201,7 @@ function WaitlistScreen (props) {
     )
   }
 
+  // renders an error message if we don't have internet
   var networkIndicator = isConnected ? null : (
     <View style={styles.networkIndicator}>
       <Text style={[styles.headerText, { textAlign: 'center' }]}>
@@ -271,6 +268,8 @@ function WaitlistScreen (props) {
           }
         />
       </View>
+
+      {/* MODALS */}
       <BuzzrModal
         isVisible={showWaitTimeModal}
         hideModal={() => setShowWaitTimeModal(false)}
@@ -422,57 +421,6 @@ function WaitlistScreen (props) {
           }}
           isActive={currentSort === 'alphabetical-reverse'}
         />
-      </BuzzrModal>
-      <BuzzrModal
-        isVisible={showAddModal}
-        hideModal={() => setShowAddModal(false)}
-        closeText='Cancel'
-      >
-        <View style={{ padding: 10 }}>
-          <View>
-            <Text style={styles.labelText}>Name</Text>
-            <TextInput
-              style={styles.nameInputContainer}
-              autoFocus={true}
-              onChangeText={text => setName(text)}
-              autoCapitalize='words'
-              autoCorrect={false}
-              value={name}
-            />
-          </View>
-          <View>
-            <Text style={styles.labelText}>Party Size</Text>
-            <TextInput
-              style={styles.nameInputContainer}
-              onChangeText={text => setPartySize(parseInt(text))}
-              keyboardType='number-pad'
-              value={partySize ? partySize.toString() : ''}
-            />
-          </View>
-          <View>
-            <Text style={styles.labelText}>Phone Number</Text>
-            <TextInput
-              style={styles.nameInputContainer}
-              onChangeText={text => setPhoneNumber(text)}
-              keyboardType='number-pad'
-              value={phoneNumber}
-            />
-          </View>
-        </View>
-        <View
-          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
-        />
-        <ModalButton
-          title='Add Customer'
-          onPress={() => {
-            submit()
-            setShowSortModal(false)
-          }}
-        />
-        <View
-          style={{ width: '100%', height: 2, backgroundColor: '#00000010' }}
-        />
-        <View style={{ height: '30%' }} />
       </BuzzrModal>
     </View>
   )

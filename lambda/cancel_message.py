@@ -1,6 +1,7 @@
 import json
 import boto3
 import decimal
+import datetime
 from botocore.exceptions import ClientError
 from boto3.dynamodb.conditions import Key, Attr
 from boto3.dynamodb.types import TypeDeserializer
@@ -14,7 +15,7 @@ def lambda_handler(event, context):
             #convert the string obeject to dict
             message = json.loads(message)
             number = message['originationNumber']
-            if message['messageBody'] == 'REMOVE':
+            if message['messageBody'] == 'CANCEL':
                 handle_delete(record, number)
     except Exception as e:
         print(f"error {e}")
@@ -73,5 +74,32 @@ def handle_delete(record, number):
     id_list = get_customer_id_to_delete(table_name, filter_expression, expression_attribute_names, expression_attribute_values)
     
     for i in id_list:
+        client = boto3.client('dynamodb')
+        response = client.get_item(
+            TableName = 'testaurant',
+            Key = {'customerID': {'S': i}}
+        )
         delete_record_by_customer_id(table_name, i)
         print(f"Deleting customer {i}")
+        name = response['Item']['name']['S']
+        customerID = response['Item']['customerID']['S']
+        currentTime = datetime.datetime.now()
+        waitTimeList = client.update_item(
+          TableName = 'testaurant',
+          Key = {'customerID': {'S': 'logs'}},
+          UpdateExpression = "SET #l = list_append(#l, :vals)",
+          ExpressionAttributeNames = {"#l": "logs"},
+          ExpressionAttributeValues = {
+              ":vals": {
+                 "L": [
+                     {
+                        "M": {
+                          str(currentTime): {
+                            "S": f"{name} ({customerID}) was removed"
+                          }
+                        }
+                      }
+                    ]
+                }
+            }
+        )
