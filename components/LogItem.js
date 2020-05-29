@@ -9,11 +9,20 @@ function LogItem (props) {
   //// STATE
 
   //// RENDER
-  console.log(props.title)
-
   return (
     <View style={styles.logItemContainer}>
-      <Text style={styles.logText}>{props.title}</Text>
+      <TouchableOpacity>
+        <View>
+          <Text style={styles.timestamp}>
+            {props.timestamp}
+          </Text>
+        </View>
+        <View>
+          <Text style={styles.logText}>
+            {props.message}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -27,6 +36,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   logText: {
+
+  },
+  timestamp: {
 
   }
 })

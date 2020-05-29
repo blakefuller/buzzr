@@ -10,33 +10,47 @@ import {
   FlatList
 } from 'react-native'
 import { colors } from '../constants'
+import GetCustomer from '../database/GetCustomer'
+import LogItem from '../components/LogItem'
 
 function LogScreen (props) {
   //// STATE
   const [logList, setLogList] = useState([])
 
   useEffect(() => {
-    // call function to get the log list
+    // get all logs in 'logs' item in db
+    getLogs();
 
-    // set the log list using setLogList() with whatever you get back from db call
   }, [])
 
   // keeps track of the current state of the view picker
 
   function renderLogItem(logList) {
-    return 
-    <LogItem title={logList.item.title}/>
+    return (
+      <LogItem
+        timestamp={logList.item.timestamp}
+        message={logList.item.message}
+      />
+    )
+  }
+
+  function getLogs() {
+    GetCustomer('logs').then(logs => {
+      setLogList(logs.Items[0].logs)
+    })
   }
 
   //// RENDER
 
   return (
     <View style={styles.screen}>
-      <FlatList 
-        data={logList}
-        renderItem={renderLogItem}
-        keyExtractor={item => item.title}
-      />
+      <View style={{ flex: 1 }}>
+        <FlatList 
+          data={logList}
+          renderItem={renderLogItem}
+          keyExtractor={item => item.timestamp}
+        />
+      </View>
     </View>
   )
 }
