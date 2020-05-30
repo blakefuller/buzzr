@@ -21,6 +21,8 @@ import BuzzrModal from '../components/BuzzrModal'
 import ModalButton from '../components/ModalButton'
 import NetInfo from '@react-native-community/netinfo'
 import CreateCustomer from '../database/CreateCustomer'
+import EditCustomer from '../database/EditCustomer'
+import ResetHostNotify from '../database/ResetHostNotify'
 
 function WaitlistScreen (props) {
   //// STATE
@@ -61,6 +63,10 @@ function WaitlistScreen (props) {
     const unsubscribe = NetInfo.addEventListener(state => {
       setIsConnected(state.isConnected)
     })
+
+    // run checkHostNotify every 10
+    setInterval(() => {checkHostNotify()}, 10000)
+
   }, [])
 
   //// FUNCTIONS
@@ -86,7 +92,17 @@ function WaitlistScreen (props) {
     }
   }
 
-  // BLAKE: set up listener for 'host notify' variable here
+  // checks the DB for a change in the host notify field
+  function checkHostNotify() {
+    GetCustomer('wait_times').then(data => {
+      var notify = data.Items[0].host_notify_alert
+      if(notify) {
+        // TODO alert notification
+        console.log('Notifying Host')
+        ResetHostNotify();
+      }
+    })
+  }
 
   // gets the waitlist by calling sortWaitlist with the default parameter
   function getWaitlist () {
