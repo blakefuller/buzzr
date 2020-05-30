@@ -27,7 +27,7 @@ function LogScreen (props) {
   function renderLogItem (logList) {
     return (
       <LogItem
-        timestamp={logList.item.timestamp}
+        timestamp={convTime(logList.item.timestamp)}
         message={logList.item.message}
       />
     )
@@ -37,6 +37,15 @@ function LogScreen (props) {
     GetCustomer('logs').then(logs => {
       setLogList(logs.Items[0].logs.reverse())
     })
+  }
+
+  // function to convert UTC timestamp to readable time
+  function convTime(timestamp) {
+    var date = new Date([timestamp.slice(0,10), 'T', timestamp.slice(11)].join(''))
+    var time = `${date.toTimeString().slice(0,8)} ` +
+                `${[date.toDateString().slice(0,3), ',', 
+                date.toDateString().slice(3,10)].join('')}`
+    return time
   }
 
   //// RENDER
