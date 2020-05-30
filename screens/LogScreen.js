@@ -19,13 +19,12 @@ function LogScreen (props) {
 
   useEffect(() => {
     // get all logs in 'logs' item in db
-    getLogs();
-
+    getLogs()
   }, [])
 
   // keeps track of the current state of the view picker
 
-  function renderLogItem(logList) {
+  function renderLogItem (logList) {
     return (
       <LogItem
         timestamp={logList.item.timestamp}
@@ -34,7 +33,7 @@ function LogScreen (props) {
     )
   }
 
-  function getLogs() {
+  function getLogs () {
     GetCustomer('logs').then(logs => {
       setLogList(logs.Items[0].logs)
     })
@@ -45,10 +44,15 @@ function LogScreen (props) {
   return (
     <View style={styles.screen}>
       <View style={{ flex: 1 }}>
-        <FlatList 
+        <FlatList
           data={logList}
           renderItem={renderLogItem}
           keyExtractor={item => item.timestamp}
+          ItemSeparatorComponent={() => (
+            <View
+              style={{ width: '100%', height: 1, backgroundColor: '#00000020' }}
+            />
+          )}
         />
       </View>
     </View>
