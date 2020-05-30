@@ -35,7 +35,7 @@ function LogScreen (props) {
 
   function getLogs () {
     GetCustomer('logs').then(logs => {
-      setLogList(logs.Items[0].logs)
+      setLogList(logs.Items[0].logs.reverse())
     })
   }
 
