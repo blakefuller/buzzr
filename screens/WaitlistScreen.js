@@ -6,7 +6,8 @@ import {
   FlatList,
   RefreshControl,
   TextInput,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Alert
 } from 'react-native'
 import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -22,7 +23,7 @@ import ModalButton from '../components/ModalButton'
 import NetInfo from '@react-native-community/netinfo'
 import CreateCustomer from '../database/CreateCustomer'
 import EditCustomer from '../database/EditCustomer'
-import ResetHostNotify from '../database/ResetHostNotify'
+import HostNotify from '../database/HostNotify'
 
 function WaitlistScreen (props) {
   //// STATE
@@ -97,9 +98,10 @@ function WaitlistScreen (props) {
     GetCustomer('wait_times').then(data => {
       var notify = data.Items[0].host_notify_alert
       if(notify) {
-        // TODO alert notification
-        console.log('Notifying Host')
-        ResetHostNotify();
+        Alert.alert(
+          'A customer needs help at the Buzzr kiosk!',
+          [{ text: 'OK', onPress: () => {HostNotify(0)} }]
+        )
       }
     })
   }

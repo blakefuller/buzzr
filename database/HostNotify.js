@@ -3,13 +3,13 @@ const config = require('../AWS.config.json')
 
 let docClient = new AWS.DynamoDB.DocumentClient()
 
-async function ResetHostNotify() {
+async function HostNotify(status) {
    var params = {
       TableName: config.restaurant,
       Key: { customerID: 'wait_times' },
-      UpdateExpression: `set host_notify_alert = :0`,
+      UpdateExpression: `set host_notify_alert = :status`,
       ExpressionAttributeValues: {
-         ':0': 0
+         ':status': status
       },
       ReturnValues: 'UPDATED_NEW'
    }
@@ -27,4 +27,4 @@ async function ResetHostNotify() {
    })
 }
 
-export default ResetHostNotify
+export default HostNotify
