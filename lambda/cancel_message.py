@@ -7,7 +7,7 @@ from boto3.dynamodb.conditions import Key, Attr
 from boto3.dynamodb.types import TypeDeserializer
 
 def lambda_handler(event, context):
-    try: 
+    try:
         print(event)
         for record in event['Records']:
             #if record['EventSource'] == 'aws:sns':
@@ -15,7 +15,7 @@ def lambda_handler(event, context):
             #convert the string obeject to dict
             message = json.loads(message)
             number = message['originationNumber']
-            if message['messageBody'] == 'CANCEL':
+            if message['messageBody'].upper() == 'CANCEL':
                 handle_delete(record, number)
     except Exception as e:
         print(f"error {e}")
@@ -59,7 +59,7 @@ def delete_record_by_customer_id(table_name, customer_id):
         return response
 
 def handle_delete(record, number):
-    
+
     table_name = "testaurant"
     filter_expression = "begins_with(#phone_number, :numberBeginsWith)"
 
@@ -72,7 +72,7 @@ def handle_delete(record, number):
     }
 
     id_list = get_customer_id_to_delete(table_name, filter_expression, expression_attribute_names, expression_attribute_values)
-    
+
     for i in id_list:
         client = boto3.client('dynamodb')
         response = client.get_item(
