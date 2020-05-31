@@ -7,14 +7,14 @@ table_name = "testaurant"
 
 def lambda_handler(event, context):
     # TODO implement
-    try: 
+    try:
         print(event)
         for record in event['Records']:
             if record['eventName'] == 'INSERT':
                 handle_insert(record)
     except Exception as e:
         print(f"error {e}")
-        
+
     return {
         'statusCode': 200,
         'body': json.dumps('Hello from Lambda!')
@@ -26,7 +26,7 @@ def handle_insert(record):
     region = "us-west-2"
     originationNumber = "+12057408060"
     destinationNumber = record['dynamodb']['NewImage']['phone_number']['S']
-    
+
     inputPartySize = record['dynamodb']['NewImage']['party_size']['N']
     inputPartySize =int(inputPartySize)
 
@@ -39,14 +39,14 @@ def handle_insert(record):
         waitlistPartySize = '8+'
     else:
         waitlistPartySize = str(inputPartySize)
-    
+
     #call the table
     waitTimeList = client.get_item(
         TableName = table_name,
         Key = {'customerID': {'S': 'wait_times'}}
     )
     print(waitTimeList)
-    
+
     #grab the waitime based on the partysize
     waitTime = waitTimeList['Item'][waitlistPartySize]['N']
 
@@ -89,13 +89,16 @@ def handle_insert(record):
            ExpressionAttributeValues = {
               ":vals": {
                  "L": [
-                     {
+                    {
                         "M": {
-                          str(currentTime): {
-                            "S": f"{name} ({customerID}) was added"
-                          }
+                            "timestamp": {
+                                "S": str(currentTime)
+                            },
+                            "message": {
+                                "S": f"{name} ({customerID}) was added"
+                            }
                         }
-                      }
+                    }
                  ]
               }
            }
