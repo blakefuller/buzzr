@@ -65,7 +65,7 @@ function WaitlistScreen (props) {
       setIsConnected(state.isConnected)
     })
 
-    // run checkHostNotify every 10
+    // run checkHostNotify every 5 seconds
     var check = setInterval(() => {checkHostNotify()}, 5000)
 
     return () => {
