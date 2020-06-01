@@ -12,7 +12,7 @@ function LogItem (props) {
   return (
     <View style={styles.logItemContainer}>
       <View>
-        <Text style={styles.timestamp}>{props.timestamp.slice(0, 19)}</Text>
+        <Text style={styles.timestamp}>{props.timestamp}</Text>
       </View>
       <View>
         <Text style={styles.logText}>{props.message}</Text>
