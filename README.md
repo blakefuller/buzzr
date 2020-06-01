@@ -48,33 +48,56 @@ Select the project "buzzr" under published projects to launch the Buzzr app.  Th
 
 <img src="/screenshots/setup.png" width="400">
 
+When first loading the app, you are taken to this screen.  Here you can select between the customer and worker mode. The customer mode is intended to be used in the front of a restaurant at a kiosk. The worker mode is intended to be used by a restaurant worker to manage the waitlist. For testing purposes, you can go back and forth between customer and worker modes just by going back, but in production, this would be limited so that the customer cannot access the waitlist.
 
-When first loading the app, you are taken to this screen.  Here you can select between customer and worker mode.  The app is intended to work so it could be used on an iPad at the entrance of a restaurant on customer mode.  Once customer mode is chosen, the app stays on customer mode until the app is restarted.  This is so customers couldn't access the worker mode.
+### Customer Mode
 
-<img width="270" height="480" src="https://i.gyazo.com/85eeace68ed5f46bc799e769151ca135.png">
+<img width="400" src="/screenshots/customer_empty.png">
+<img width="400" src="/screenshots/customer_full.png">
 
-After selecting customer mode, the customer is able to type in their information to reserve a spot in line at the restaurant.  They will recieve a text message confirming their reservation, their estimated wait time, and an option to cancel their reservation by texting back CANCEL.
+On the customer input screen, the customer is able to type in their information to reserve a spot in line at the restaurant.  
 
-<img width="270" height="480" src="https://i.gyazo.com/7f58ea775cfb3b1a5a7351c88b6e3002.png">
+<img width="400" src="/screenshots/customer_notiy.png">
 
-This is the waitlist management available in the worker mode.  Here, the host can click notify to notify a customer that their table is ready.  A text message is sent to the number the customer registered with letting them know that they should come see the host to be seated.
+The customer can press the 'help' button in the top right to alert a host that they need help. 
 
-Additionally, the host can click the plus botton in the top right to manually add a customer to the waitlist, which will take them to the same screen as the customer would see when adding themself.
+<img width="400" src="/screenshots/waitlist_host_notify.png">
 
-<img width="270" height="480" src="https://i.gyazo.com/94271ab26420a8f2b161a33a9db197fa.png">
+As soon as the customer presses the 'help' button, the host sees this alert on their screen.
 
-From the waitlist screen, selecting the clock symbol takes the host to a screen where they can set the wait times depending on the party size.  These can easily be changed during slower or busier times, so when the text is sent to the customer confirming their reservation, they get an accurate expected wait time.
+<img width="400" src="/screenshots/customer_success.png">
 
-<img width="270" height="480" src="https://i.gyazo.com/679a9ea4a29a0000e1479759ede3f456.png">
+Once the customer presses the 'add to waitlist' button and if all their input is valid, they will recieve a text message confirming their reservation, the app will display their estimated wait time, and they will have the option to cancel their reservation by texting back CANCEL to the number they received the confirmation message from.
 
-From the waitlist screen, the host can select the sort button in the top left to bring up the sorting menu.  This allows the host to select one of various options on how they would like to sort the waitlist.
+### Worker Mode
 
-<img width="270" height="480" src="https://i.gyazo.com/8ae80ba9a890190345a8804c24d6aa39.png">
+<img width="400" src="/screenshots/waitlist.png">
 
+Worker mode displays the current waitlist. It has many available actions for the worker to do.
 
+<img width="400" src="/screenshots/waitlist_notify.png">
+
+The worker can notify a customer that their table is ready by tapping the 'notify' button twice. This sends the customer a text message letting them know that their table is ready and to return to the restaurant. Once they've been notified, the 'notified' column switches to the number of minutes since the notify message was sent.
+
+<img width="400" src="/screenshots/waitlist_add_to_waitlist.png">
+
+The worker can press the 'plus' button in the top right to add a customer to the waitlist themselves.
+
+<img width="400" src="/screenshots/waitlist_set_waittimes.png">
+
+The worker can press the 'clock' icon to open up the wait time interface. Here, they can set the wait times that will be shown in the success screen after a customer is added and in the text message confirmation that the customer receives.
+
+<img width="400" src="/screenshots/waitlist_sort.png">
+
+The worker can press the 'sort' button to open up the sorting interface. Here, they can sort the wait list by name, party size, and how long a customer has been waiting.
+
+<img width="400" src="/screenshots/waitlist_log.png">
+
+The worker can press the 'log' button to view a log of all the recent actions that have occured.
 
 ## Built With
 
+* [React Native](www.reactnative.dev) - programming language
 * [expo](https://expo.io/) - App creation workflow
 * [Amazon Web Services](https://aws.amazon.com/) - Database, text messaging, interactions with app
 * [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) - Python library used to write AWS Lambda functions
@@ -92,4 +115,3 @@ From the waitlist screen, the host can select the sort button in the top left to
 
 * Dr. Arias for weekly meetings and advice
 * Josh Gunn for Buzzr branding and logo creation
-
