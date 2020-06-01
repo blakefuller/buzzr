@@ -28,7 +28,7 @@ function SetupScreen (props) {
         if (roundedPartySize === 3) roundedPartySize = '4'
         else if (roundedPartySize === 5) roundedPartySize = '6'
         else if (roundedPartySize === 7) roundedPartySize = '8+'
-        else if (roundedPartySize > 8) roundedPartySize = '8+'
+        else if (roundedPartySize => 8) roundedPartySize = '8+'
         setWaitTime(waitTimes.Items[0][roundedPartySize])
       })
   }, [])
