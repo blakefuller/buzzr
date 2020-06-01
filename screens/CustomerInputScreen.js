@@ -58,7 +58,7 @@ function CustomerInputScreen (props) {
   // validates the user's inputs and return either 'good' or an error message
   function validateInputs () {
     // check that phone number is valid
-    var phoneNumberRE = /[0-9]{3}[-]{0,1}[0-9]{3}[-]{0,1}[0-9]{4}/
+    var phoneNumberRE = /^[0-9]{3}[-]{0,1}[0-9]{3}[-]{0,1}[0-9]{4}$/
     var phoneNumberValid = phoneNumberRE.exec(phoneNumber)
 
     // check that the party size is valid
