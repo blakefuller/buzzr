@@ -41,7 +41,7 @@ function SetupScreen (props) {
       </View>
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => props.navigation.replace(view)}
+        onPress={() => props.navigation.navigate(view)}
       >
         <Text style={styles.startButtonText}>Start</Text>
       </TouchableOpacity>

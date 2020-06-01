@@ -9,11 +9,14 @@ function LogItem (props) {
   //// STATE
 
   //// RENDER
-  console.log(props.title)
-
   return (
     <View style={styles.logItemContainer}>
-      <Text style={styles.logText}>{props.title}</Text>
+      <View>
+        <Text style={styles.timestamp}>{props.timestamp}</Text>
+      </View>
+      <View>
+        <Text style={styles.logText}>{props.message}</Text>
+      </View>
     </View>
   )
 }
@@ -22,12 +25,20 @@ function LogItem (props) {
 
 const styles = StyleSheet.create({
   logItemContainer: {
-    height: 50,
+    height: 65,
     width: Dimensions.get('window').width,
-    flexDirection: 'row'
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    padding: 5
   },
   logText: {
-
+    fontFamily: 'regular',
+    fontSize: 14
+  },
+  timestamp: {
+    fontFamily: 'italic',
+    fontSize: 12,
+    color: '#00000080'
   }
 })
 

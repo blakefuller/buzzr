@@ -17,7 +17,7 @@ async function CreateCustomer (customer) {
         console.log('error - ' + JSON.stringify(err, null, 2))
         resolve(false)
       } else {
-        console.log('success - ' + JSON.stringify(data, null, 2))
+        // console.log('success - ' + JSON.stringify(data, null, 2))
         resolve(true)
       }
     })

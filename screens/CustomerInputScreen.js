@@ -11,6 +11,7 @@ import { colors } from '../constants'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import CreateCustomer from '../database/CreateCustomer'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import HostNotify from '../database/HostNotify'
 
 function CustomerInputScreen (props) {
   //// STATE
@@ -58,7 +59,7 @@ function CustomerInputScreen (props) {
   // validates the user's inputs and return either 'good' or an error message
   function validateInputs () {
     // check that phone number is valid
-    var phoneNumberRE = /[0-9]{3}[-]{0,1}[0-9]{3}[-]{0,1}[0-9]{4}/
+    var phoneNumberRE = /^[0-9]{3}[-]{0,1}[0-9]{3}[-]{0,1}[0-9]{4}$/
     var phoneNumberValid = phoneNumberRE.exec(phoneNumber)
 
     // check that the party size is valid
@@ -112,7 +113,8 @@ function CustomerInputScreen (props) {
 
   // notifies all connected devices that someone needs help
   function notifyHost () {
-    //BLAKE todo: change 'notify host' variable here
+    // trigger notify variable in database
+    HostNotify(1);
 
     Alert.alert(
       'A restaurant worker has been notified',
