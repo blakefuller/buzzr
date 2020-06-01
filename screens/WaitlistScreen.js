@@ -66,7 +66,12 @@ function WaitlistScreen (props) {
     })
 
     // run checkHostNotify every 10
-    setInterval(() => {checkHostNotify()}, 10000)
+    var check = setInterval(() => {checkHostNotify()}, 5000)
+
+    return () => {
+      clearInterval(check)
+      unsubscribe()
+    }
 
   }, [])
 
@@ -99,9 +104,10 @@ function WaitlistScreen (props) {
       var notify = data.Items[0].host_notify_alert
       if(notify) {
         Alert.alert(
-          'A customer needs help at the Buzzr kiosk!',
-          [{ text: 'OK', onPress: () => {HostNotify(0)} }]
+          'A customer needs help at the Buzzr kiosk!', '',
+          [{ text: 'OK', onPress: () => {} }]
         )
+        HostNotify(0)
       }
     })
   }
