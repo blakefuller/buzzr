@@ -79,6 +79,10 @@ Worker mode displays the current waitlist. It has many available actions for the
 
 The worker can notify a customer that their table is ready by tapping the 'notify' button twice. This sends the customer a text message letting them know that their table is ready and to return to the restaurant. Once they've been notified, the 'notified' column switches to the number of minutes since the notify message was sent.  
 
+<img width="400" src="/screenshots/waitlist_customer_options.png">
+
+The worker can press on a customer to edit or delete a them from the waitlist.
+
 <img width="400" src="/screenshots/waitlist_add_to_waitlist.png">
 
 The worker can press the 'plus' button in the top right to add a customer to the waitlist themselves.  
