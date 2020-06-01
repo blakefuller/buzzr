@@ -44,6 +44,11 @@ Select the project "buzzr" under published projects to launch the Buzzr app.  Th
 
 ## App User Guide
 
+### Setup Screen
+
+![Setup](/screenshots/setup)
+
+
 When first loading the app, you are taken to this screen.  Here you can select between customer and worker mode.  The app is intended to work so it could be used on an iPad at the entrance of a restaurant on customer mode.  Once customer mode is chosen, the app stays on customer mode until the app is restarted.  This is so customers couldn't access the worker mode.
 
 <img width="270" height="480" src="https://i.gyazo.com/85eeace68ed5f46bc799e769151ca135.png">
