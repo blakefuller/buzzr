@@ -45,7 +45,10 @@ function CustomerInputScreen (props) {
         <View style={styles.formContainer}>
           <Text style={styles.labelText}>Name</Text>
           <TextInput
-            style={[styles.nameInputContainer, { width: 350 }]}
+            style={[
+              styles.nameInputContainer,
+              { width: Dimensions.get('window').width - 40 }
+            ]}
             autoFocus={true}
             onChangeText={text => setName(text)}
             autoCapitalize='words'
