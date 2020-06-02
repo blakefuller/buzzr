@@ -101,9 +101,9 @@ The worker can press the 'log' button to view a log of all the recent actions th
 
 ## Built With
 
-* [React Native](www.reactnative.dev) - programming language
+* [React Native](www.reactnative.dev) - Mobile App framework
+* [Amazon Web Services](https://aws.amazon.com/) - DynamoDB, Lambda, SNS
 * [expo](https://expo.io/) - App creation workflow
-* [Amazon Web Services](https://aws.amazon.com/) - Database, text messaging, interactions with app
 * [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) - Python library used to write AWS Lambda functions
 
 
